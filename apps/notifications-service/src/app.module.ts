@@ -6,6 +6,7 @@ import { HealthModule } from './health/health.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { RealtimeModule } from './realtime/realtime.module';
 import { MetricsModule } from './metrics/metrics.module';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { MetricsModule } from './metrics/metrics.module';
           database: configService.get<string>('DATABASE_NAME', 'challenge_db'),
           autoLoadEntities: true,
           synchronize: false,
+          migrations: [join(__dirname, 'migrations/*.{js,ts}')],
           migrationsRun: parseBool(configService.get('MIGRATIONS_RUN'), false),
         } as const;
       },

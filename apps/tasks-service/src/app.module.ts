@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TasksModule } from './tasks/tasks.module';
+import { join } from 'path';
 import { HealthModule } from './health/health.module';
 
 @Module({
@@ -30,6 +31,8 @@ import { HealthModule } from './health/health.module';
           database: configService.get<string>('DATABASE_NAME', 'challenge_db'),
           autoLoadEntities: true,
           synchronize: false,
+          // Ensure TypeORM knows where to find migrations at runtime
+          migrations: [join(__dirname, 'migrations/*.{js,ts}')],
           migrationsRun: parseBool(configService.get('MIGRATIONS_RUN'), false),
         } as const;
       },
