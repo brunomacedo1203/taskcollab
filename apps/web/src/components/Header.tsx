@@ -70,19 +70,34 @@ export const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
         <nav className="hidden md:flex items-center gap-6">
           {/* Link Tarefas com indicador ativo */}
           {currentPath !== '/' && (
-            <Link
-              to="/tasks"
-              className={`text-sm font-medium transition-colors duration-300 relative py-2 ${
-                currentPath.startsWith('/tasks')
-                  ? 'text-primary'
-                  : 'text-foreground hover:text-primary'
-              }`}
-            >
-              Tarefas
-              {currentPath.startsWith('/tasks') && (
-                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
-              )}
-            </Link>
+            <>
+              <Link
+                to="/tasks"
+                className={`text-sm font-medium transition-colors duration-300 relative py-2 ${
+                  currentPath.startsWith('/tasks')
+                    ? 'text-primary'
+                    : 'text-foreground hover:text-primary'
+                }`}
+              >
+                Tarefas
+                {currentPath.startsWith('/tasks') && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
+                )}
+              </Link>
+              <Link
+                to="/conversations"
+                className={`text-sm font-medium transition-colors duration-300 relative py-2 ${
+                  currentPath.startsWith('/conversations')
+                    ? 'text-primary'
+                    : 'text-foreground hover:text-primary'
+                }`}
+              >
+                Conversations
+                {currentPath.startsWith('/conversations') && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
+                )}
+              </Link>
+            </>
           )}
 
           {isAuthenticated && <NotificationsDropdown />}

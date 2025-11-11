@@ -13,6 +13,7 @@ import { RegisterPage } from './routes/Register';
 import { HomePage } from './routes/Home';
 import { TasksListPage } from './routes/TasksList';
 import { TaskDetailsPage } from './routes/TaskDetails';
+import { ConversationsPage } from './routes/Conversations';
 
 export type AuthContext = {
   isAuthenticated: boolean;
@@ -93,12 +94,25 @@ const taskDetailsRoute = createRoute({
   component: TaskDetailsPage,
 });
 
+// Conversations route (protected)
+const conversationsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/conversations',
+  beforeLoad: ({ context }) => {
+    if (!context.isAuthenticated) {
+      throw redirect({ to: '/login' });
+    }
+  },
+  component: ConversationsPage,
+});
+
 const routeTree = rootRoute.addChildren([
   loginRoute,
   registerRoute,
   homeRoute,
   tasksRoute,
   taskDetailsRoute,
+  conversationsRoute,
 ]);
 
 export const router = createRouter({
