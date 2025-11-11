@@ -33,7 +33,7 @@ services:
   auth-service:
     build:
       context: .
-    	dockerfile: ./apps/auth-service/Dockerfile
+      dockerfile: ./apps/auth-service/Dockerfile
     container_name: tc2-auth-service
     restart: always
     env_file:
