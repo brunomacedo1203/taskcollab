@@ -1,44 +1,36 @@
-# 🧩 Jungle Gaming — Full-Stack Challenge (Monorepo)
+# 🚀 TaskCollab — Full-Stack Collaboration Platform
 
-Este repositório contém a implementação incremental do **Desafio Full-Stack da Jungle Gaming**.  
-O objetivo é entregar um **sistema colaborativo de gestão de tarefas** composto por múltiplos serviços NestJS, um API Gateway, uma aplicação React e comunicação assíncrona via RabbitMQ.
+Este repositório descreve a evolução do projeto **TaskCollab**, um sistema colaborativo para gestão de tarefas, comentários e notificações. Ele combina serviços NestJS, um API Gateway, um frontend React e mensageria com RabbitMQ para suportar colaboração em tempo real.
 
-## 📋 Plano de Implementação
-
-Este projeto segue o plano detalhado em [Implementation-checklist.md](Implementation-checklist.md).
-O documento organiza as etapas por “Dia” e descreve as decisões e entregas realizadas.
-
----
-
-# 🏗️ Arquitetura do Sistema
+# 🏗️ Arquitetura do TaskCollab
 
 <div align="center">
-  <img src="./docs/images/architecture-diagram.svg" alt="Arquitetura Full-Stack" width="100%"/>
+  <img src="./docs/images/architecture-diagram.svg" alt="Arquitetura TaskCollab" width="100%"/>
 </div>
 
 ## 🔑 Componentes
 
-**Web (React + Vite + TanStack + Zustand)** → Interface frontend com autenticação JWT
+**Web (React + Vite + TanStack + Zustand)** → React + TanStack Router/Query, estilizado com Tailwind e shadcn/ui, consumindo WebSocket e APIs.
 
-**API Gateway** → Roteamento e validação de requisições
+**API Gateway** → Ponto único de entrada HTTP; aplica validação JWT, rate-limiting e proxy para os microserviços.
 
-**Auth Service** → JWT, usuários e autenticação
+**Auth Service** → Gerencia usuários, hashes de senha, tokens JWT (access + refresh) e fornece `/auth/register`, `/auth/login` e `/auth/refresh`.
 
-**Tasks Service** → CRUD de tarefas e gerenciamento de assignees
+**Tasks Service** → CRUD de tarefas, comentários, histórico e publicação de eventos no RabbitMQ (`tasks.events`).
 
-**Notifications Service** → WebSocket e HTTP (JWT) para notificações em tempo real
+**Notifications Service** → Consome eventos RabbitMQ, mantém WebSocket (WS_PATH `/ws`) e endpoints HTTP para notificações.
 
-**PostgreSQL** → Banco relacional (users, tasks, assignees, comments, task_history, notifications, task_participants)
+**PostgreSQL** → Dados relacionais: usuários, tarefas, comentários, histórico, notificações e participantes.
 
-**RabbitMQ** → Message broker para comunicação assíncrona entre serviços
+**RabbitMQ** → Message broker (`tasks.events`) e transportador de eventos com DLX/opções de filas.
 
 ## 🔄 Fluxo de Comunicação
 
 1. Cliente → API Gateway (HTTP + JWT)
-2. Gateway → Services (HTTP interno)
-3. Services → PostgreSQL (persistência)
-4. Services → RabbitMQ (eventos)
-5. Notifications → Cliente (WebSocket push)
+2. API Gateway → Microserviços internos (tasks, auth, notifications)
+3. Serviços → PostgreSQL para persistência transacional
+4. Tasks Service → RabbitMQ para eventos e audit logs
+5. Notifications Service → Cliente via WebSocket (e polling opcional)
 
 ## 🎯 Padrões e Stack Técnica
 
@@ -118,22 +110,6 @@ docker compose exec notifications-service npm run migration:run --workspace=@jun
 
 Observação: novas migrations foram adicionadas para padronizar IDs em UUID gerados pelo banco (Auth e Tasks).
 Se estiver usando o `docker compose up`, os serviços de Auth e Notifications já estão configurados com `MIGRATIONS_RUN=true` e executam as migrations automaticamente no boot — rode manualmente apenas se estiver trabalhando fora dos containers.
-```
-
----
-
-### 6️⃣ Checagens locais (opcional)
-
-```bash
-npm run typecheck --workspace=@jungle/tasks-service
-npm run build --workspace=@jungle/tasks-service
-
-# Health endpoints
-curl -sfS http://localhost:3001/api/health
-# Tasks Service (acesso interno via exec)
-docker compose exec tasks-service curl -sfS http://localhost:3003/health
-# Notifications (exposto)
-curl -sfS http://localhost:3004/health
 ```
 
 ---
@@ -449,61 +425,6 @@ Durante os testes de QA, foram executados:
 - 🌐 **Frontend e Gateway** — conectados corretamente, exibindo toasts, badges e lista de notificações atualizadas em tempo real.
 
 ---
-
-### ⏱️ Tempo Gasto por Dia (estimativa)
-
-> **Observação:** Os **Dias 1 e 2** foram dedicados exclusivamente a estudo, desenho arquitetural e planejamento. Os **Dias 3 a 12** seguem exatamente o plano descrito em [Implementation-checklist.md](Implementation-checklist.md) (Dias 1 a 10 do desafio).
-
-| Dia       | Objetivo principal                                                                   |    Tempo |
-| --------- | ------------------------------------------------------------------------------------ | -------: |
-| 1         | Estudo inicial do domínio, levantamento de requisitos e análise do desafio           |      15h |
-| 2         | Planejamento detalhado da arquitetura, fluxos e definição das milestones             |       9h |
-| 3         | (Checklist Dia 1) Setup do monorepo, Docker Compose e validação da infra             |      10h |
-| 4         | (Checklist Dia 2) Auth Service – cadastro/login/refresh com Nest + TypeORM           |      10h |
-| 5         | (Checklist Dia 3) API Gateway – proxies, Swagger, JWT guard e rate limiting          |       9h |
-| 6         | (Checklist Dia 4) Tasks Service – CRUD completo, migrations e integração via Gateway |      10h |
-| 7         | (Checklist Dia 5) Tasks events – comentários, histórico e publicação no RabbitMQ     |       9h |
-| 8         | (Checklist Dia 6) Notifications Service – consumer RabbitMQ + WebSocket gateway      |      10h |
-| 9         | (Checklist Dia 7) Frontend – setup Vite/React, autenticação e Zustand                |       9h |
-| 10        | (Checklist Dia 8) Frontend – lista/detalhe de tarefas e seção de comentários         |      10h |
-| 11        | (Checklist Dia 9) Frontend – UX, notificações em tempo real e toasts                 |       9h |
-| 12        | (Checklist Dia 10) Testes finais, QA end-to-end e ajustes de documentação            |       8h |
-| **Total** | —                                                                                    | **118h** |
-
----
-
-## 🚧 Problemas conhecidos & Melhorias (prioridade frontend)
-
-1. Internacionalização (i18n) básica: suportar pt-BR/en-US e formatação local (datas/números).
-2. Acessibilidade (A11y) em dropdowns e modal: ARIA, foco por teclado, fechar com Esc e focus-trap.
-3. Filtros persistentes + paginação visível: sincronizar filtros na URL e adicionar Anterior/Próxima na lista.
-4. Responsividade da lista (mobile): exibir “cards” ou ocultar colunas não essenciais em telas pequenas.
-5. Implementação de um sistema de autorização de modo que usuários autorizados tenham privilégios(admin, manager...) para gerenciar tarefas.
-
----
-
-### 🐳 Stack Docker — Containers ativos e saudáveis
-
-![Figura 21 – Containers ativos no Docker Desktop](./docs/images/day-10/fig-21-docker-desktop-health.png)
-
-✅ **Serviços em execução:**
-
-- Banco de dados (`db`)
-- Mensageria (`rabbitmq`)
-- Microserviços (`auth-service`, `tasks-service`, `notifications-service`)
-- API Gateway (`api-gateway`)
-- Aplicação Web (`web`)
-
-As portas expostas (`5432`, `15672`, `3000`, `3001`) confirmam o mapeamento correto de cada componente.
-
----
-
-## ⚖️ Decisões & Trade-offs
-
-- **Monorepo via Turborepo:** facilita o compartilhamento de tipos/utilitários e builds encadeados
-- **TypeORM + migrations:** garante versionamento e evita `synchronize` em produção
-- **Validações agressivas:** erros 400 antecipam falhas de negócio e evitam 500 genéricos
-- **Swagger:** substitui Postman e documenta automaticamente os endpoints
 
 ### 🧩 MCP Servers (Context7)
 

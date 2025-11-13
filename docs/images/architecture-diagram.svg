@@ -4,7 +4,7 @@
   
   <!-- Title -->
   <text x="400" y="40" font-family="monospace" font-size="20" fill="#ffffff" text-anchor="middle" font-weight="bold">
-    Jungle Gaming — Arquitetura Full-Stack
+    TaskCollab — Arquitetura Full-Stack
   </text>
   
   <!-- Web Layer -->
