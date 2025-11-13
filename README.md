@@ -36,7 +36,7 @@ Este repositório descreve a evolução do projeto **TaskCollab**, um sistema co
 
 - **Arquitetura:** Microserviços independentes, com API Gateway orquestrando HTTP + JWT.
 - **Comunicação:** REST síncrono entre serviços e fluxo event-driven pelo RabbitMQ; notificações em tempo real via WebSocket.
-- **Dev Experience:** Monorepo Turborepo + npm workspaces, TypeScript 5, ESLint e Prettier.
+- **Dev Experience:** Monorepo Turborepo + pnpm workspaces, TypeScript 5, ESLint e Prettier.
 - **Backend:** NestJS com TypeORM , PostgreSQL e Docker Compose.
 - **Observabilidade/Ferramentas:** Swagger/OpenAPI no Gateway, DBeaver para inspeção do banco e RabbitMQ (management UI) para mensageria.
 - **Frontend:** React + TanStack Router + Tailwind + shadcn/ui.
@@ -53,8 +53,14 @@ Este repositório descreve a evolução do projeto **TaskCollab**, um sistema co
 ### 2️⃣ Instalação
 
 ```bash
-npm install
+pnpm install
 ```
+
+Nota importante sobre lockfiles
+
+- Este projeto usa pnpm como gerenciador padrão. O arquivo de lock efetivo é `pnpm-lock.yaml`.
+- O `package-lock.json` permanece versionado apenas por compatibilidade/histórico. Evite `npm install`/`npm ci` neste repositório, pois gerarão uma árvore diferente.
+- O repositório contém um guard de preinstall que bloqueia instalações com npm/yarn: use pnpm (via Corepack) — `corepack enable && corepack prepare pnpm@9.12.3 --activate`.
 
 ---
 
@@ -100,13 +106,13 @@ Após a stack estar de pé, execute:
 
 ```bash
 # Auth
-docker compose exec auth-service npm run migration:run --workspace=@jungle/auth-service
+docker compose exec auth-service pnpm --filter @jungle/auth-service migration:run
 
 # Tasks
-docker compose exec tasks-service npm run migration:run --workspace=@jungle/tasks-service
+docker compose exec tasks-service pnpm --filter @jungle/tasks-service migration:run
 
 # Notifications
-docker compose exec notifications-service npm run migration:run --workspace=@jungle/notifications-service
+docker compose exec notifications-service pnpm --filter @jungle/notifications-service migration:run
 
 Observação: novas migrations foram adicionadas para padronizar IDs em UUID gerados pelo banco (Auth e Tasks).
 Se estiver usando o `docker compose up`, os serviços de Auth e Notifications já estão configurados com `MIGRATIONS_RUN=true` e executam as migrations automaticamente no boot — rode manualmente apenas se estiver trabalhando fora dos containers.

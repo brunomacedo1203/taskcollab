@@ -15,15 +15,21 @@
 
 # - O Docker faz TUDO: build, otimização e serve a aplicação
 
-     -  http://localhost:4000 (porta exposta pelo container)
+# - Portas expostas pelo Docker
 
-# - Não precisa rodar npm run build/preview manualmente!
+- http://localhost:4000 (frontend @jungle/web)
+- http://localhost:4001 (API Gateway - expõe os endpoints da API @jungle/api-gateway)
+- http://localhost:4004 (Notifications Service - painel e webhook internos)
+- PostgreSQL: 55432 (conecta via @jungle/db se necessário)
+- RabbitMQ AMQP: 5673 / Management UI: http://localhost:15673
+
+# - Não precisa rodar pnpm build/preview manualmente!
 
 #
 
 # 💻 MODO LOCAL (RECOMENDADO PARA DESENVOLVIMENTO RÁPIDO)
 
-# - Use 'npm run dev' para hot-reload durante desenvolvimento
+# - Use 'pnpm dev' (com filtro) para hot-reload durante desenvolvimento
 
 # Frontend fica em http://localhost:5173
 
@@ -33,7 +39,7 @@
 
 # 🧪 MODO PREVIEW LOCAL (TESTE DE BUILD SEM DOCKER)
 
-# - Use 'npm run build' + 'npm run preview'
+# - Use 'pnpm build' + 'pnpm preview'
 
 # - Testa a versão otimizada localmente antes do Docker
 
@@ -53,7 +59,7 @@ docker_stack: |
 
 # O Docker automaticamente:
 
-# 1. Faz o build do frontend (npm run build)
+# 1. Faz o build do frontend (pnpm build)
 
 # 2. Otimiza os assets
 
@@ -61,7 +67,7 @@ docker_stack: |
 
 #
 
-# ⚠️ NÃO precisa rodar 'npm run build' ou 'npm run preview' manualmente!
+# ⚠️ NÃO precisa rodar 'pnpm build' ou 'pnpm preview' manualmente!
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -102,6 +108,14 @@ docker compose down -v
 
 # 🌐 Acessar aplicação: http://localhost:4000
 
+# 🌐 API Gateway: http://localhost:4001 (todas as rotas REST principais)
+
+# 🌐 Notifications Service: http://localhost:4004
+
+# 🗄️ PostgreSQL: 55432
+
+# 🐇 RabbitMQ AMQP: 5673 / Management UI: http://localhost:15673
+
 development: |
 
 # 💻 Desenvolvimento Local (SEM DOCKER)
@@ -116,13 +130,13 @@ development: |
 
 # Backend (cada um em terminal separado)
 
-npm run dev --workspace=@jungle/api-gateway
-npm run dev --workspace=@jungle/tasks-service
-npm run dev --workspace=@jungle/notifications-service
+pnpm --filter @jungle/api-gateway dev
+pnpm --filter @jungle/tasks-service dev
+pnpm --filter @jungle/notifications-service dev
 
 # Frontend com hot-reload
 
-npm run dev --workspace=@jungle/web
+pnpm --filter @jungle/web dev
 
 # 🌐 Acessar aplicação: http://localhost:5173
 
@@ -148,15 +162,15 @@ production_local: |
 
 # 1️⃣ Build de produção do monorepo inteiro
 
-npm run build
+pnpm build
 
 # 2️⃣ OU build apenas do frontend
 
-npm run build --workspace=@jungle/web
+pnpm --filter @jungle/web build
 
 # 3️⃣ Servir o build com preview (servidor estático)
 
-npm run preview --workspace=@jungle/web
+pnpm --filter @jungle/web preview
 
 # 🌐 Acessar aplicação: http://localhost:4173 (ou porta mostrada no terminal)
 
@@ -252,11 +266,11 @@ websocket: |
 
 # Instalar utilitário (uma vez)
 
-npm install -g wscat
+pnpm add -g wscat
 
 # Conectar ao WebSocket (substitua pelo seu token)
 
-npx wscat -c "ws://localhost:4004/ws?token=$ACCESS_TOKEN"
+pnpm dlx wscat -c "ws://localhost:4004/ws?token=$ACCESS_TOKEN"
 
 migrations: |
 
@@ -264,9 +278,9 @@ migrations: |
 
 # Rodar migrations manualmente (se não subir no boot)
 
-docker compose exec auth-service npm run migration:run
-docker compose exec tasks-service npm run migration:run
-docker compose exec notifications-service npm run migration:run
+docker compose exec auth-service pnpm --filter @jungle/auth-service migration:run
+docker compose exec tasks-service pnpm --filter @jungle/tasks-service migration:run
+docker compose exec notifications-service pnpm --filter @jungle/notifications-service migration:run
 
 build_and_lint: |
 
@@ -278,11 +292,11 @@ turbo run build
 
 # Build específico do frontend
 
-npm run build --workspace=@jungle/web
+pnpm --filter @jungle/web build
 
 # Lint global
 
-npm run lint --workspaces
+pnpm lint
 
 diagnostics: |
 
@@ -399,7 +413,7 @@ quick_reference: |
 
 # "Estou desenvolvendo e quero ver mudanças instantâneas"
 
-→ Entrar em apps/web e rodar: npm run dev
+→ Entrar em apps/web e rodar: pnpm dev
 → Frontend em http://localhost:5173
 
 # "Quero testar a aplicação completa como em produção
@@ -412,7 +426,7 @@ quick_reference: |
 
 # "Quero testar o build localmente antes do Docker"
 
-# → npm run build && npm run preview --workspace=@jungle/web
+# → pnpm --filter @jungle/web build && pnpm --filter @jungle/web preview
 
 → Frontend em http://localhost:4173
 

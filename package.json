@@ -1,17 +1,18 @@
 {
   "name": "@jungle/fullstack-challenge",
   "version": "1.0.0",
-  "description": "Bem‑vindo(a)! Este é um **teste prático** para a vaga de **Full‑stack Developer Júnior** na **Jungle Gaming**. O objetivo é avaliar sua capacidade de estruturar um monorepo, modelar um domínio simples, construir uma UI funcional e integrar serviços usando mensageria.",
+  "description": "Bem‑vindo(a)! Este é um **teste prático** para a vaga de **Full‑stack Developer Júnior** na **Task collab**. O objetivo é avaliar sua capacidade de estruturar um monorepo, modelar um domínio simples, construir uma UI funcional e integrar serviços usando mensageria.",
   "main": "index.js",
   "scripts": {
+    "preinstall": "node -e \"if (!(process.env.npm_config_user_agent || '').includes('pnpm')) { console.error('Use pnpm (via Corepack): corepack enable && corepack prepare pnpm@9.12.3 --activate'); process.exit(1) }\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "typecheck": "turbo run typecheck",
     "lint": "turbo run lint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "build": "turbo run build",
-    "preview": "cd apps/web && npm run preview",
-    "check-all": "npm run typecheck && npm run lint && npm run format:check && npm run build",
+    "preview": "pnpm --filter @jungle/web preview",
+    "check-all": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm build",
     "diagram:build": "mmdc -i docs/architecture.mmd -o docs/images/architecture.svg",
     "prepare": "husky install"
   },
@@ -26,7 +27,7 @@
   "engines": {
     "node": ">=20"
   },
-  "packageManager": "npm@10.8.2",
+  "packageManager": "pnpm@9.12.3",
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "^10.9.1",
     "@modelcontextprotocol/server-filesystem": "^2025.8.21",

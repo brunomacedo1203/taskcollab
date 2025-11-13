@@ -2,6 +2,7 @@
   "name": "@jungle/tasks-service",
   "version": "0.0.0",
   "private": true,
+  "packageManager": "pnpm@9.12.3",
   "type": "commonjs",
   "scripts": {
     "dev": "tsx watch src/main.ts",
@@ -11,10 +12,10 @@
     "lint": "eslint src --ext .ts",
     "typeorm": "cross-env NODE_ENV=development TS_NODE_PROJECT=tsconfig.cli.json typeorm-ts-node-commonjs -d typeorm.config.ts",
     "typeorm:prod": "node ../../node_modules/typeorm/cli.js -d dist/typeorm.config.js",
-    "migration:run": "npm run typeorm -- migration:run",
-    "migration:run:prod": "npm run typeorm:prod -- migration:run",
-    "migration:revert": "npm run typeorm -- migration:revert",
-    "migration:generate": "npm run typeorm -- migration:generate"
+    "migration:run": "pnpm run typeorm -- migration:run",
+    "migration:run:prod": "pnpm run typeorm:prod -- migration:run",
+    "migration:revert": "pnpm run typeorm -- migration:revert",
+    "migration:generate": "pnpm run typeorm -- migration:generate"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.8",

@@ -3,15 +3,17 @@
 FROM node:20-alpine AS base
 WORKDIR /app
 
-COPY package*.json turbo.json tsconfig.json ./
+RUN corepack enable && corepack prepare pnpm@9.12.3 --activate
+
+COPY package*.json pnpm-workspace.yaml turbo.json tsconfig.json ./
 COPY packages ./packages
 COPY apps ./apps
 
-RUN npm install
+RUN pnpm install --frozen-lockfile=false
 
 # Build in the workspace directory to ensure proper tsconfig resolution
 WORKDIR /app/apps/notifications-service
-RUN npm run build
+RUN pnpm build
 
 EXPOSE 3004
-CMD ["npm", "run", "start"]
+CMD ["pnpm", "start"]

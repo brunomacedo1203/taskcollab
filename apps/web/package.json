@@ -2,6 +2,7 @@
   "name": "@jungle/web",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@9.12.3",
   "type": "module",
   "scripts": {
     "dev": "vite --port 3000 --host 0.0.0.0",
@@ -28,7 +29,7 @@
     "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {
-    "@jungle/tsconfig": "*",
+    "@jungle/tsconfig": "workspace:*",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",

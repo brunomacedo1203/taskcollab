@@ -3,12 +3,14 @@
 FROM node:20-alpine AS base
 WORKDIR /app
 
-COPY package*.json turbo.json tsconfig.json ./
+RUN corepack enable && corepack prepare pnpm@9.12.3 --activate
+
+COPY package*.json pnpm-workspace.yaml turbo.json tsconfig.json ./
 COPY packages ./packages
 COPY apps ./apps
 
-RUN npm install
-RUN npm run build --workspace=@jungle/web
+RUN pnpm install --frozen-lockfile=false
+RUN pnpm --filter @jungle/web build
 
 EXPOSE 3000
-CMD ["npm", "run", "start", "--workspace=@jungle/web"]
+CMD ["pnpm", "--filter", "@jungle/web", "start"]
