@@ -10,7 +10,7 @@ COPY packages ./packages
 COPY apps ./apps
 
 RUN pnpm install --frozen-lockfile=false
-RUN pnpm --filter @jungle/web build
+RUN pnpm --filter @task-collab/web build
 
 EXPOSE 3000
-CMD ["pnpm", "--filter", "@jungle/web", "start"]
+CMD ["pnpm", "--filter", "@task-collab/web", "start"]

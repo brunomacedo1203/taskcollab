@@ -17,10 +17,10 @@
 
 # - Portas expostas pelo Docker
 
-- http://localhost:4000 (frontend @jungle/web)
-- http://localhost:4001 (API Gateway - expõe os endpoints da API @jungle/api-gateway)
+- http://localhost:4000 (frontend @task-collab/web)
+- http://localhost:4001 (API Gateway - expõe os endpoints da API @task-collab/api-gateway)
 - http://localhost:4004 (Notifications Service - painel e webhook internos)
-- PostgreSQL: 55432 (conecta via @jungle/db se necessário)
+- PostgreSQL: 55432 (conecta via @task-collab/db se necessário)
 - RabbitMQ AMQP: 5673 / Management UI: http://localhost:15673
 
 # - Não precisa rodar pnpm build/preview manualmente!
@@ -130,13 +130,13 @@ development: |
 
 # Backend (cada um em terminal separado)
 
-pnpm --filter @jungle/api-gateway dev
-pnpm --filter @jungle/tasks-service dev
-pnpm --filter @jungle/notifications-service dev
+pnpm --filter @task-collab/api-gateway dev
+pnpm --filter @task-collab/tasks-service dev
+pnpm --filter @task-collab/notifications-service dev
 
 # Frontend com hot-reload
 
-pnpm --filter @jungle/web dev
+pnpm --filter @task-collab/web dev
 
 # 🌐 Acessar aplicação: http://localhost:5173
 
@@ -166,11 +166,11 @@ pnpm build
 
 # 2️⃣ OU build apenas do frontend
 
-pnpm --filter @jungle/web build
+pnpm --filter @task-collab/web build
 
 # 3️⃣ Servir o build com preview (servidor estático)
 
-pnpm --filter @jungle/web preview
+pnpm --filter @task-collab/web preview
 
 # 🌐 Acessar aplicação: http://localhost:4173 (ou porta mostrada no terminal)
 
@@ -278,9 +278,9 @@ migrations: |
 
 # Rodar migrations manualmente (se não subir no boot)
 
-docker compose exec auth-service pnpm --filter @jungle/auth-service migration:run
-docker compose exec tasks-service pnpm --filter @jungle/tasks-service migration:run
-docker compose exec notifications-service pnpm --filter @jungle/notifications-service migration:run
+docker compose exec auth-service pnpm --filter @task-collab/auth-service migration:run
+docker compose exec tasks-service pnpm --filter @task-collab/tasks-service migration:run
+docker compose exec notifications-service pnpm --filter @task-collab/notifications-service migration:run
 
 build_and_lint: |
 
@@ -292,7 +292,7 @@ turbo run build
 
 # Build específico do frontend
 
-pnpm --filter @jungle/web build
+pnpm --filter @task-collab/web build
 
 # Lint global
 
@@ -426,7 +426,7 @@ quick_reference: |
 
 # "Quero testar o build localmente antes do Docker"
 
-# → pnpm --filter @jungle/web build && pnpm --filter @jungle/web preview
+# → pnpm --filter @task-collab/web build && pnpm --filter @task-collab/web preview
 
 → Frontend em http://localhost:4173
 

@@ -12,8 +12,8 @@ COPY apps ./apps
 # Toolchain for native modules (e.g., bcrypt)
 RUN apk add --no-cache python3 make g++ \
   && pnpm install --frozen-lockfile=false \
-  && pnpm --filter @jungle/auth-service build \
+  && pnpm --filter @task-collab/auth-service build \
   && apk del --no-cache python3 make g++
 
 EXPOSE 3002
-CMD ["pnpm", "--filter", "@jungle/auth-service", "start"]
+CMD ["pnpm", "--filter", "@task-collab/auth-service", "start"]

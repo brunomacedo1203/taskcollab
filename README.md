@@ -36,7 +36,7 @@ Este repositório descreve a evolução do projeto **TaskCollab**, um sistema co
 
 - **Arquitetura:** Microserviços independentes, com API Gateway orquestrando HTTP + JWT.
 - **Comunicação:** REST síncrono entre serviços e fluxo event-driven pelo RabbitMQ; notificações em tempo real via WebSocket.
-- **Dev Experience:** Monorepo Turborepo + pnpm workspaces, TypeScript 5, ESLint e Prettier.
+- **Dev Experience:** Monorepo Turborepo + pnpm workspaces (escopo `@task-collab/*`), TypeScript 5, ESLint e Prettier.
 - **Backend:** NestJS com TypeORM , PostgreSQL e Docker Compose.
 - **Observabilidade/Ferramentas:** Swagger/OpenAPI no Gateway, DBeaver para inspeção do banco e RabbitMQ (management UI) para mensageria.
 - **Frontend:** React + TanStack Router + Tailwind + shadcn/ui.
@@ -106,13 +106,13 @@ Após a stack estar de pé, execute:
 
 ```bash
 # Auth
-docker compose exec auth-service pnpm --filter @jungle/auth-service migration:run
+docker compose exec auth-service pnpm --filter @task-collab/auth-service migration:run
 
 # Tasks
-docker compose exec tasks-service pnpm --filter @jungle/tasks-service migration:run
+docker compose exec tasks-service pnpm --filter @task-collab/tasks-service migration:run
 
 # Notifications
-docker compose exec notifications-service pnpm --filter @jungle/notifications-service migration:run
+docker compose exec notifications-service pnpm --filter @task-collab/notifications-service migration:run
 
 Observação: novas migrations foram adicionadas para padronizar IDs em UUID gerados pelo banco (Auth e Tasks).
 Se estiver usando o `docker compose up`, os serviços de Auth e Notifications já estão configurados com `MIGRATIONS_RUN=true` e executam as migrations automaticamente no boot — rode manualmente apenas se estiver trabalhando fora dos containers.

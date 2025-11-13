@@ -6,7 +6,7 @@
 
 ## 1. Validar a base técnica existente
 
-- [x] Executar `npm install` na raiz e garantir que os workspaces são instalados sem erros.
+- [x] Executar `pnpm install` na raiz e garantir que os workspaces são instalados sem erros.
 - [x] Rodar `docker compose up --build` para verificar containers de Postgres, RabbitMQ, API Gateway e serviços Nest.
 - [x] Testar fluxos básicos no Swagger do gateway (`/api/docs`): autenticação, CRUD de tarefas e comentários.
 - [x] Confirmar que RabbitMQ e Postgres estão acessíveis (UI ou cli) e que eventos são publicados.

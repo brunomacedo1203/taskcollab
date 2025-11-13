@@ -1,5 +1,5 @@
 {
-  "name": "@jungle/fullstack-challenge",
+  "name": "@task-collab/fullstack-challenge",
   "version": "1.0.0",
   "description": "Bem‑vindo(a)! Este é um **teste prático** para a vaga de **Full‑stack Developer Júnior** na **Task collab**. O objetivo é avaliar sua capacidade de estruturar um monorepo, modelar um domínio simples, construir uma UI funcional e integrar serviços usando mensageria.",
   "main": "index.js",
@@ -11,7 +11,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "build": "turbo run build",
-    "preview": "pnpm --filter @jungle/web preview",
+    "preview": "pnpm --filter @task-collab/web preview",
     "check-all": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm build",
     "diagram:build": "mmdc -i docs/architecture.mmd -o docs/images/architecture.svg",
     "prepare": "husky install"
