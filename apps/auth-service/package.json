@@ -1,5 +1,5 @@
 {
-  "name": "@jungle/auth-service",
+  "name": "@task-collab/auth-service",
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@9.12.3",
@@ -19,6 +19,8 @@
     "migration:generate": "pnpm run typeorm -- migration:generate"
   },
   "dependencies": {
+    "@nestjs/swagger": "^11.2.1",
+    "dotenv": "^16.4.5",
     "@nestjs/common": "^11.1.8",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.1.8",
