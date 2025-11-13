@@ -2,7 +2,7 @@ import { mock, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { TaskCreatedEvent, TaskUpdatedEvent, TaskCommentCreatedEvent } from '@jungle/types';
+import { TaskCreatedEvent, TaskUpdatedEvent, TaskCommentCreatedEvent } from '@task-collab/types';
 import { TasksEventsConsumer } from './tasks-events.consumer';
 
 const createConfigService = (): ConfigService =>

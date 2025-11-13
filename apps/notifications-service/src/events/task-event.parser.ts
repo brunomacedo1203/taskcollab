@@ -3,7 +3,7 @@ import {
   TaskCreatedEvent,
   TaskEvent,
   TaskUpdatedEvent,
-} from '@jungle/types';
+} from '@task-collab/types';
 
 const MAX_STRING_LENGTH = 10_000;
 

@@ -2,7 +2,7 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IsNull, Repository } from 'typeorm';
 import { Notification } from './notification.entity';
-import { TaskCommentCreatedEvent, TaskCreatedEvent, TaskUpdatedEvent } from '@jungle/types';
+import { TaskCommentCreatedEvent, TaskCreatedEvent, TaskUpdatedEvent } from '@task-collab/types';
 import { TaskParticipants } from './task-participants.entity';
 
 @Injectable()

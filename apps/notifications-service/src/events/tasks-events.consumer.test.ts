@@ -3,7 +3,7 @@ import { mock, test } from 'node:test';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TasksEventsConsumer } from './tasks-events.consumer';
-import { TaskCreatedEvent } from '@jungle/types';
+import { TaskCreatedEvent } from '@task-collab/types';
 
 type AckFn = ReturnType<typeof mock.fn>;
 

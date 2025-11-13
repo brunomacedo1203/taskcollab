@@ -6,7 +6,7 @@ import {
   TaskCreatedEvent,
   TaskEvent,
   TaskUpdatedEvent,
-} from '@jungle/types';
+} from '@task-collab/types';
 import { InvalidTaskEventError, parseTaskEvent } from './task-event.parser';
 import { NotificationsService } from '../notifications/notifications.service';
 import { MetricsService } from '../metrics/metrics.service';

@@ -6,7 +6,7 @@ import {
   TaskCreatedEvent,
   TaskEvent,
   TaskUpdatedEvent,
-} from '@jungle/types';
+} from '@task-collab/types';
 
 const LOGGER_CONTEXT = 'TasksEventsPublisher';
 

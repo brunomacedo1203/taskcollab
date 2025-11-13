@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
-import { TaskCommentCreatedEvent, TaskCreatedEvent, TaskUpdatedEvent } from '@jungle/types';
+import { TaskCommentCreatedEvent, TaskCreatedEvent, TaskUpdatedEvent } from '@task-collab/types';
 import { TasksEventsPublisher } from '../events/tasks-events.publisher';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { ListCommentsQueryDto } from './dto/list-comments.query.dto';
