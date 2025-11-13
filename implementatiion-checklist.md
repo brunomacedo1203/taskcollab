@@ -6,10 +6,10 @@
 
 ## 1. Validar a base técnica existente
 
-- [ ] Executar `npm install` na raiz e garantir que os workspaces são instalados sem erros.
-- [ ] Rodar `docker compose up --build` para verificar containers de Postgres, RabbitMQ, API Gateway e serviços Nest.
-- [ ] Testar fluxos básicos no Swagger do gateway (`/api/docs`): autenticação, CRUD de tarefas e comentários.
-- [ ] Confirmar que RabbitMQ e Postgres estão acessíveis (UI ou cli) e que eventos são publicados.
+- [x] Executar `npm install` na raiz e garantir que os workspaces são instalados sem erros.
+- [x] Rodar `docker compose up --build` para verificar containers de Postgres, RabbitMQ, API Gateway e serviços Nest.
+- [x] Testar fluxos básicos no Swagger do gateway (`/api/docs`): autenticação, CRUD de tarefas e comentários.
+- [x] Confirmar que RabbitMQ e Postgres estão acessíveis (UI ou cli) e que eventos são publicados.
 
 ## 2. Definir estratégia de versionamento/projeto
 
@@ -69,9 +69,15 @@
   - Volumes: `tc2_postgres_data`, `tc2_rabbitmq_data`.
 - [x] Remover `docker-compose.override.yml` (não é mais necessário).
 - [ ] Ajustar o frontend para apontar para o novo gateway:
-  - Em `apps/web/.env`, definir `VITE_API_URL=http://localhost:4001`.
+  - Em `apps/web/.env`, definir `VITE_API_BASE_URL=http://localhost:4001/api` e `VITE_WS_URL=ws://localhost:4004`.
 - [ ] Subir o stack: `docker compose up --build`
   - RabbitMQ UI: `http://localhost:15673`.
   - Postgres (host): `localhost:55432` (user `postgres`, pass `password`).
 - [ ] Se o projeto original estiver rodando, pare-o ou garanta portas diferentes. Caso esteja parado, não haverá conflito.
 - [ ] Documentar portas e URLs no README para o time.
+
+## 9. Conversas e notificações
+
+- [x] Criar rota `/conversations` protegida que lê do store de notificações.
+- [x] Implementar `apps/web/src/routes/Conversations.tsx` com cards que destacam título, corpo e timestamp das notificações.
+- [x] Adicionar link ativo “Conversations” no header para alternar entre tarefas e mensagens.

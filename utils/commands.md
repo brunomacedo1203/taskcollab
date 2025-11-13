@@ -15,7 +15,7 @@
 
 # - O Docker faz TUDO: build, otimização e serve a aplicação
 
-     -  http://localhost:3000 (porta exposta pelo container)
+     -  http://localhost:4000 (porta exposta pelo container)
 
 # - Não precisa rodar npm run build/preview manualmente!
 
@@ -57,7 +57,7 @@ docker_stack: |
 
 # 2. Otimiza os assets
 
-# 3. Serve o bundle na porta 3000
+# 3. Serve o bundle na porta 4000
 
 #
 
@@ -100,7 +100,7 @@ docker compose down
 
 docker compose down -v
 
-# 🌐 Acessar aplicação: http://localhost:3000
+# 🌐 Acessar aplicação: http://localhost:4000
 
 development: |
 
@@ -196,7 +196,7 @@ health_checks: |
 
 # Gateway (único exposto via localhost)
 
-curl -sfS http://localhost:3001/api/health
+curl -sfS http://localhost:4001/api/health
 
 # Serviços internos (rodar de dentro do gateway)
 
@@ -215,7 +215,7 @@ rabbitmq: |
 
 # Acessar interface web
 
-http://localhost:15672
+http://localhost:15673
 
 # Login: admin | Senha: admin
 
@@ -238,13 +238,13 @@ auth_jwt: |
 
 # Login manual via curl
 
-curl -X POST http://localhost:3001/api/auth/login \
+curl -X POST http://localhost:4001/api/auth/login \
  -H "Content-Type: application/json" \
  -d '{"email":"user@example.com","password":"123456"}'
 
 # Testar rota protegida
 
-curl -H "Authorization: Bearer $ACCESS_TOKEN" http://localhost:3001/api/tasks
+curl -H "Authorization: Bearer $ACCESS_TOKEN" http://localhost:4001/api/tasks
 
 websocket: |
 
@@ -256,7 +256,7 @@ npm install -g wscat
 
 # Conectar ao WebSocket (substitua pelo seu token)
 
-npx wscat -c "ws://localhost:3004/ws?token=$ACCESS_TOKEN"
+npx wscat -c "ws://localhost:4004/ws?token=$ACCESS_TOKEN"
 
 migrations: |
 
@@ -315,7 +315,7 @@ cors_config: |
 
 # app.use(cors({
 
-# origin: 'http://localhost:3000',
+# origin: 'http://localhost:4000',
 
 # credentials: true
 
@@ -347,7 +347,7 @@ cors_config: |
 
 # origin: [
 
-# 'http://localhost:3000', // Docker
+# 'http://localhost:4000', // Docker
 
 # 'http://localhost:5173', // Dev
 
@@ -367,7 +367,7 @@ ui_urls: |
 
 # Frontend:
 
-# 🐳 Docker: http://localhost:3000
+# 🐳 Docker: http://localhost:4000
 
 # 💻 Dev (hot-reload): http://localhost:5173
 
@@ -377,15 +377,15 @@ ui_urls: |
 
 # Backend:
 
-# API Gateway (Swagger): http://localhost:3001/api/docs
+# API Gateway (Swagger): http://localhost:4001/api/docs
 
 #
 
 # Ferramentas:
 
-# RabbitMQ UI: http://localhost:15672 (admin/admin)
+# RabbitMQ UI: http://localhost:15673 (admin/admin)
 
-# Banco de Dados: Host=localhost, Port=5432, DB=challenge_db
+# Banco de Dados: Host=localhost, Port=55432, DB=challenge_db
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -400,13 +400,13 @@ quick_reference: |
 # "Estou desenvolvendo e quero ver mudanças instantâneas"
 
 → Entrar em apps/web e rodar: npm run dev
-→ Frontend em http://localhost:3002
+→ Frontend em http://localhost:5173
 
 # "Quero testar a aplicação completa como em produção
 
 # → docker compose up --build
 
-→ Frontend em http://localhost:3000
+→ Frontend em http://localhost:4000
 
 #
 
