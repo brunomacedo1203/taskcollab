@@ -8,7 +8,10 @@ COPY packages ./packages
 COPY apps ./apps
 
 RUN npm install
-RUN npm run build --workspace=@jungle/notifications-service
+
+# Build in the workspace directory to ensure proper tsconfig resolution
+WORKDIR /app/apps/notifications-service
+RUN npm run build
 
 EXPOSE 3004
-CMD ["npm", "run", "start", "--workspace=@jungle/notifications-service"]
+CMD ["npm", "run", "start"]

@@ -8,7 +8,10 @@ COPY packages ./packages
 COPY apps ./apps
 
 RUN npm install
-RUN npm run build --workspace=@jungle/tasks-service
+
+# Build in the workspace directory to ensure proper tsconfig resolution
+WORKDIR /app/apps/tasks-service
+RUN npm run build
 
 EXPOSE 3003
-CMD ["npm", "run", "start", "--workspace=@jungle/tasks-service"]
+CMD ["npm", "run", "start"]

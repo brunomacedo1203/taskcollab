@@ -9,7 +9,10 @@ COPY packages ./packages
 COPY apps ./apps
 
 RUN npm install
-RUN npm run build --workspace=@jungle/api-gateway
+
+# Build in the workspace directory to ensure proper tsconfig resolution
+WORKDIR /app/apps/api-gateway
+RUN npm run build
 
 EXPOSE 3001
-CMD ["npm", "run", "start", "--workspace=@jungle/api-gateway"]
+CMD ["npm", "run", "start"]
