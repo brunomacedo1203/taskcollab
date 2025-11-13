@@ -22,7 +22,7 @@ export const LoginPage: React.FC = () => {
         <div className="bg-gaming-light/50 backdrop-blur-sm border-2 border-border rounded-2xl p-8 shadow-xl">
           <h1 className="text-3xl font-gaming font-bold text-primary mb-2 text-center">Entrar</h1>
           <p className="text-foreground/70 text-sm text-center mb-8">
-            Acesse sua conta Jungle Tasks
+            Acesse sua conta Task Collab
           </p>
           <form onSubmit={handleSubmit(submitValues)} className="space-y-6">
             <div className="space-y-2">

@@ -63,7 +63,7 @@ export const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
           to="/"
           className="font-gaming font-bold text-xl text-primary hover:text-accent transition-colors duration-300 text-glow"
         >
-          Jungle Tasks
+          Task Collab
         </Link>
 
         {/* Desktop Navigation */}

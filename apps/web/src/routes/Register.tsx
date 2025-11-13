@@ -23,7 +23,7 @@ export const RegisterPage: React.FC = () => {
           <h1 className="text-3xl font-gaming font-bold text-primary mb-2 text-center">
             Criar conta
           </h1>
-          <p className="text-foreground/70 text-sm text-center mb-8">Junte-se ao Jungle Tasks</p>
+          <p className="text-foreground/70 text-sm text-center mb-8">Junte-se ao Task Collab</p>
           <form onSubmit={handleSubmit(submit)} className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="email">E-mail</Label>

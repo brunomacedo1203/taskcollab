@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================
-# 🧾 Jungle Gaming — Patch de documentação (Dias 1–10)
+# 🧾 Task collab — Patch de documentação (Dias 1–10)
 # Reorganiza imagens em pastas por dia e atualiza README
 # ==============================================
 

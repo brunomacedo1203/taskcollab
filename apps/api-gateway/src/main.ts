@@ -34,7 +34,7 @@ async function bootstrap(): Promise<void> {
   app.enableCors({ origin, credentials });
 
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('Jungle Gaming API Gateway')
+    .setTitle('Task collab API Gateway')
     .setDescription('REST gateway aggregating backend microservices')
     .setVersion('1.0.0')
     .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' })
