@@ -1,4 +1,4 @@
-// Shared types for the Jungle monorepo.
+// Shared types for the Task Collab monorepo.
 
 export type UUID = string;
 

@@ -3,7 +3,7 @@ const tsPlugin = require('@typescript-eslint/eslint-plugin');
 const globals = require('globals');
 
 /**
- * Shared ESLint flat config for Jungle monorepo.
+ * Shared ESLint flat config for Task Collab monorepo.
  * Exported as an array so apps can extend with additional overrides.
  * @type {import('eslint').Linter.FlatConfig[]}
  */

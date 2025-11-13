@@ -1,1 +1,1 @@
-module.exports = require('@jungle/eslint-config');
+module.exports = require('@task-collab/eslint-config');
