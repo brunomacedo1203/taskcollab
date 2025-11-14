@@ -1,435 +1,299 @@
-# ═══════════════════════════════════════════════════════════════════
+# 🚀 TaskCollab — Comandos Essenciais (Cheat Sheet)
 
-# 🚀 IMPORTANTE: Escolha seu modo de trabalho
+Este documento reúne **todos os comandos úteis**, organizados para consulta rápida durante o desenvolvimento, debug, build e execução via Docker ou modo local.
 
-# ═══════════════════════════════════════════════════════════════════
+---
 
-#
+# 🐳 DOCKER MODE
 
-# 🐳 MODO DOCKER (RECOMENDADO PARA PRODUÇÃO/TESTE COMPLETO)
+## Subir ambiente
 
-# - Use:
+```
+docker compose up --build     # se houve alterações
+docker compose up             # sem alterações
+docker compose up -d          # detached mode
+```
 
-       docker compose up --build (se houve alteração de arquivos)
-       docker compose up (se não houve alteração de arquivo)
+## Reconstruir apenas um serviço
 
-# - O Docker faz TUDO: build, otimização e serve a aplicação
-
-# - Portas expostas pelo Docker
-
-- http://localhost:4000 (frontend @task-collab/web)
-- http://localhost:4001 (API Gateway - expõe os endpoints da API @task-collab/api-gateway)
-- http://localhost:4004 (Notifications Service - painel e webhook internos)
-- PostgreSQL: 55432 (conecta via @task-collab/db se necessário)
-- RabbitMQ AMQP: 5673 / Management UI: http://localhost:15673
-
-# - Não precisa rodar pnpm build/preview manualmente!
-
-#
-
-# 💻 MODO LOCAL (RECOMENDADO PARA DESENVOLVIMENTO RÁPIDO)
-
-# - Use 'pnpm dev' (com filtro) para hot-reload durante desenvolvimento
-
-# Frontend fica em http://localhost:5173
-
-# - Mais rápido para testar mudanças no código
-
-#
-
-# 🧪 MODO PREVIEW LOCAL (TESTE DE BUILD SEM DOCKER)
-
-# - Use 'pnpm build' + 'pnpm preview'
-
-# - Testa a versão otimizada localmente antes do Docker
-
-# - Frontend fica em http://localhost:4173
-
-# - Útil para validar que o build está correto
-
-#
-
-# ═══════════════════════════════════════════════════════════════════
-
-docker_stack: |
-
-# 🐳 Docker Stack (PRODUÇÃO/COMPLETO)
-
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-# O Docker automaticamente:
-
-# 1. Faz o build do frontend (pnpm build)
-
-# 2. Otimiza os assets
-
-# 3. Serve o bundle na porta 4000
-
-#
-
-# ⚠️ NÃO precisa rodar 'pnpm build' ou 'pnpm preview' manualmente!
-
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-# Subir toda a stack (build + run)
-
-docker compose up --build
-
-# Modo detached (background)
-
-docker compose up --build -d
-OBS: o "d" significa detached mode, serve para executar os logs em segundo plano e liberar o temrinal
-
-# Reconstruir apenas um serviço específico
-
+```
 docker compose up --build web
+```
 
-# Listar containers ativos
+## Logs
 
-docker ps
-
-# Logs em tempo real de serviços específicos
-
+```
+docker compose logs -f web
 docker compose logs -f api-gateway
 docker compose logs -f notifications-service
-docker compose logs -f web
+```
 
-# Parar Contêineres (Mantém tudo)
+## Containers
 
-docker compose stop
+```
+docker ps                     # listar containers
+docker compose stop           # parar containers
+docker compose down           # parar + remover
+docker compose down -v        # parar + remover + volumes (limpa dados)
+```
 
-# Parar e Remover Contêineres (Mantém Volumes)
+## RabbitMQ (debug)
 
-docker compose down
+```
+# Criar fila temporária
+docker compose exec rabbitmq rabbitmqadmin -u admin -p admin   declare queue name=debug-tasks-events durable=false
 
-# Parar, Remover Contêineres e Volumes (Limpeza de Dados)
+# Bind
+docker compose exec rabbitmq rabbitmqadmin -u admin -p admin   declare binding source=tasks.events destination=debug-tasks-events routing_key='#'
 
-docker compose down -v
+# Consumir mensagens
+docker compose exec rabbitmq rabbitmqadmin -u admin -p admin   get queue=debug-tasks-events count=10
 
-# 🌐 Acessar aplicação: http://localhost:4000
+# Remover fila
+docker compose exec rabbitmq rabbitmqadmin -u admin -p admin   delete queue name=debug-tasks-events
+```
 
-# 🌐 API Gateway: http://localhost:4001 (todas as rotas REST principais)
+---
 
-# 🌐 Notifications Service: http://localhost:4004
+# 💻 LOCAL MODE (DESENVOLVIMENTO RÁPIDO)
 
-# 🗄️ PostgreSQL: 55432
+## Frontend (hot reload)
 
-# 🐇 RabbitMQ AMQP: 5673 / Management UI: http://localhost:15673
+```
+pnpm --filter @task-collab/web dev
+```
 
-development: |
+URL: http://localhost:5173
 
-# 💻 Desenvolvimento Local (SEM DOCKER)
+## Backend (cada serviço em um terminal)
 
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-# Modo desenvolvimento com hot-reload (código atualiza automaticamente)
-
-# Requer Postgres + RabbitMQ ativos (suba via docker compose ou localmente)
-
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-# Backend (cada um em terminal separado)
-
+```
 pnpm --filter @task-collab/api-gateway dev
 pnpm --filter @task-collab/tasks-service dev
 pnpm --filter @task-collab/notifications-service dev
+```
 
-# Frontend com hot-reload
+## Build / Preview
 
-pnpm --filter @task-collab/web dev
+```
+pnpm build                                   # Build do monorepo
+pnpm --filter @task-collab/web build         # Frontend apenas
+pnpm --filter @task-collab/web preview       # Servir build
+```
 
-# 🌐 Acessar aplicação: http://localhost:5173
+---
 
-#
+# 🧱 Migrations (TypeORM)
 
-# ⚙️ Configure o CORS no backend para aceitar:
+```
+docker compose exec auth-service pnpm run migration:run
+docker compose exec tasks-service pnpm run migration:run
+docker compose exec notifications-service pnpm run migration:run
+```
 
-# origin: 'http://localhost:5173'
-
-# Dica: use terminais separados para cada serviço.
-
-production_local: |
-
-# 🧪 Build e Preview Local (TESTE SEM DOCKER)
-
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-# Use isso quando quiser testar a versão de produção localmente
-
-# SEM usar Docker. Útil para validar que o build funciona corretamente.
-
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-# 1️⃣ Build de produção do monorepo inteiro
-
-pnpm build
-
-# 2️⃣ OU build apenas do frontend
-
-pnpm --filter @task-collab/web build
-
-# 3️⃣ Servir o build com preview (servidor estático)
-
-pnpm --filter @task-collab/web preview
-
-# 🌐 Acessar aplicação: http://localhost:4173 (ou porta mostrada no terminal)
-
-#
-
-# ⚙️ Configure o CORS no backend para aceitar:
-
-# origin: 'http://localhost:4173'
-
-# ⚠️ LEMBRE-SE: Se você vai usar Docker depois, não precisa desses comandos!
-
-# O Docker já faz o build automaticamente quando você roda 'docker compose up --build'
-
-database: |
-
-# 🗄️ Banco de Dados (PostgreSQL)
-
-# Entrar no container do banco e listar databases
-
-docker exec -it db psql -U postgres -l
-
-# Conectar ao banco principal do desafio
-
-docker exec -it db psql -U postgres challenge_db
-
-# Mostrar tabelas do schema atual
-
-\dt
-
-# Sair do psql
-
-\q
-
-health_checks: |
+---
 
 # 🩺 Health Checks
 
-# Gateway (único exposto via localhost)
+## Gateway
 
+```
 curl -sfS http://localhost:4001/api/health
+```
 
-# Serviços internos (rodar de dentro do gateway)
+## Serviços internos (de dentro do gateway)
 
+```
 docker compose exec api-gateway wget -qO- http://tasks-service:3003/health
 docker compose exec api-gateway wget -qO- http://notifications-service:3004/health
+```
 
-# ✅ Esperado:
-
-# {"status":"ok","service":"tasks-service","timestamp":"..."}
-
-# {"status":"ok","service":"notifications-service","timestamp":"..."}
-
-rabbitmq: |
+---
 
 # 🐇 RabbitMQ
 
-# Acessar interface web
+## Interface web
 
-http://localhost:15673
+URL: http://localhost:15673  
+Login: admin  
+Senha: admin
 
-# Login: admin | Senha: admin
+---
 
-# Criar fila efêmera para debug
+# 🔐 Autenticação / JWT
 
-docker compose exec rabbitmq rabbitmqadmin -u admin -p admin declare queue name=debug-tasks-events durable=false
-docker compose exec rabbitmq rabbitmqadmin -u admin -p admin declare binding source=tasks.events destination=debug-tasks-events routing_key='#'
+## Login via curl
 
-# Consumir mensagens
+```
+curl -X POST http://localhost:4001/api/auth/login   -H "Content-Type: application/json"   -d '{"email":"user@example.com","password":"123456"}'
+```
 
-docker compose exec rabbitmq rabbitmqadmin -u admin -p admin get queue=debug-tasks-events count=10
+## Testar rota protegida
 
-# Remover fila após uso
+```
+curl -H "Authorization: Bearer $ACCESS_TOKEN"   http://localhost:4001/api/tasks
+```
 
-docker compose exec rabbitmq rabbitmqadmin -u admin -p admin delete queue name=debug-tasks-events
+---
 
-auth_jwt: |
+# 🌐 WebSocket (Notificações em tempo real)
 
-# 🔐 Autenticação e JWT
+## Instalar cliente WebSocket
 
-# Login manual via curl
-
-curl -X POST http://localhost:4001/api/auth/login \
- -H "Content-Type: application/json" \
- -d '{"email":"user@example.com","password":"123456"}'
-
-# Testar rota protegida
-
-curl -H "Authorization: Bearer $ACCESS_TOKEN" http://localhost:4001/api/tasks
-
-websocket: |
-
-# 🌐 WebSocket (Notificações em Tempo Real)
-
-# Instalar utilitário (uma vez)
-
+```
 pnpm add -g wscat
+```
 
-# Conectar ao WebSocket (substitua pelo seu token)
+## Conectar
 
-pnpm dlx wscat -c "ws://localhost:4004/ws?token=$ACCESS_TOKEN"
+```
+wscat -c "ws://localhost:4004/ws?token=$ACCESS_TOKEN"
+```
 
-migrations: |
-
-# 🧱 Migrations
-
-# Rodar migrations manualmente (se não subir no boot)
-
-docker compose exec auth-service pnpm --filter @task-collab/auth-service migration:run
-docker compose exec tasks-service pnpm --filter @task-collab/tasks-service migration:run
-docker compose exec notifications-service pnpm --filter @task-collab/notifications-service migration:run
-
-build_and_lint: |
-
-# 🧪 Build e Lint
-
-# Build global do monorepo
-
-turbo run build
-
-# Build específico do frontend
-
-pnpm --filter @task-collab/web build
-
-# Lint global
-
-pnpm lint
-
-diagnostics: |
+---
 
 # 🔍 Diagnóstico rápido
 
-# Últimas 50 linhas de log
-
+```
 docker compose logs --tail=50
-
-# Logs específicos de um serviço
-
 docker compose logs --tail=50 web
 docker compose logs --tail=50 api-gateway
-
-# Estatísticas de CPU e memória
-
 docker stats
+```
 
-cors_config: |
-
-# 🔒 Configuração de CORS (importante!)
-
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-# Configure o CORS no backend de acordo com o modo que está usando:
-
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-# Para DOCKER (porta 3000):
-
-# app.use(cors({
-
-# origin: 'http://localhost:4000',
-
-# credentials: true
-
-# }));
-
-# Para DESENVOLVIMENTO LOCAL (porta 5173):
-
-# app.use(cors({
-
-# origin: 'http://localhost:5173',
-
-# credentials: true
-
-# }));
-
-# Para PREVIEW LOCAL (porta 4173):
-
-# app.use(cors({
-
-# origin: 'http://localhost:4173',
-
-# credentials: true
-
-# }));
-
-# Para aceitar MÚLTIPLAS origens (todos os modos):
-
-# app.use(cors({
-
-# origin: [
-
-# 'http://localhost:4000', // Docker
-
-# 'http://localhost:5173', // Dev
-
-# 'http://localhost:4173' // Preview
-
-# ],
-
-# credentials: true
-
-# }));
-
-ui_urls: |
+---
 
 # 📘 URLs Principais
 
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## Frontend
 
-# Frontend:
+- Docker: http://localhost:4000
+- Dev: http://localhost:5173
+- Preview: http://localhost:4173
 
-# 🐳 Docker: http://localhost:4000
+## Backend
 
-# 💻 Dev (hot-reload): http://localhost:5173
+- Gateway Swagger: http://localhost:4001/api/docs
 
-# 🧪 Preview local: http://localhost:4173
+## Infra
 
-#
+- RabbitMQ UI: http://localhost:15673
+- PostgreSQL (host): localhost:55432
+  - DB: taskcollab_db
+  - User: postgres
 
-# Backend:
+---
 
-# API Gateway (Swagger): http://localhost:4001/api/docs
+# 🎯 REFERÊNCIA RÁPIDA — Qual comando usar?
 
-#
+## Desenvolvimento rápido (Frontend com hot reload)
 
-# Ferramentas:
+```
+pnpm --filter @task-collab/web dev
+http://localhost:5173
+```
 
-# RabbitMQ UI: http://localhost:15673 (admin/admin)
+## Testar a aplicação completa como produção
 
-# Banco de Dados: Host=localhost, Port=55432, DB=challenge_db
+```
+docker compose up --build
+http://localhost:4000
+```
 
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## Testar build local antes do Docker
 
-quick_reference: |
+```
+pnpm --filter @task-collab/web build
+pnpm --filter @task-collab/web preview
 
-# 🎯 REFERÊNCIA RÁPIDA - Qual comando usar?
+```
 
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# CRUD no Banco de Dados --- DBeaver, SQL e Docker
 
-#
+## 1. CRUD via DBeaver
 
-# "Estou desenvolvendo e quero ver mudanças instantâneas"
+### CREATE
 
-→ Entrar em apps/web e rodar: pnpm dev
-→ Frontend em http://localhost:5173
+```sql
+INSERT INTO users (id, username, email, password)
+VALUES ('uuid-aqui', 'alice', 'alice@example.com', '$2b$10$hash');
+```
 
-# "Quero testar a aplicação completa como em produção
+### READ
 
-# → docker compose up --build
+```sql
+SELECT * FROM users;
+```
 
-→ Frontend em http://localhost:4000
+### UPDATE
 
-#
+```sql
+UPDATE users
+SET email = 'bob@example.com'
+WHERE id = 'a584adf7-ce06-4b62-a73c-63f0afd7e8ac';
+```
 
-# "Quero testar o build localmente antes do Docker"
+### DELETE
 
-# → pnpm --filter @task-collab/web build && pnpm --filter @task-collab/web preview
+```sql
+DELETE FROM users WHERE id = 'uuid-do-usuario';
+```
 
-→ Frontend em http://localhost:4173
+---
 
-#
+## 2. CRUD via SQL Puro (psql)
 
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+### CREATE
+
+```sql
+INSERT INTO users (id, username, email)
+VALUES ('uuid-aqui', 'carol', 'carol@example.com');
+```
+
+### READ
+
+```sql
+SELECT * FROM users WHERE email = 'carol@example.com';
+```
+
+### UPDATE
+
+```sql
+UPDATE users
+SET username = 'carol_updated'
+WHERE email = 'carol@example.com';
+```
+
+### DELETE
+
+```sql
+DELETE FROM users WHERE username = 'carol_updated';
+```
+
+---
+
+## 3. CRUD via Docker + psql
+
+### CREATE
+
+```bash
+docker exec -it tc2-db psql -U postgres -d taskcollab_db   -c "INSERT INTO users (id, username, email) VALUES ('uuid', 'eric', 'eric@example.com');"
+```
+
+### READ
+
+```bash
+docker exec -it tc2-db psql -U postgres -d taskcollab_db   -c "SELECT * FROM users;"
+```
+
+### UPDATE
+
+```bash
+docker exec -it tc2-db psql -U postgres -d taskcollab_db   -c "UPDATE users SET email='eric_new@example.com' WHERE username='eric';"
+```
+
+### DELETE
+
+```bash
+docker exec -it tc2-db psql -U postgres -d taskcollab_db   -c "DELETE FROM users WHERE username='eric';"
+```
