@@ -1,4 +1,4 @@
-import { HttpException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { HttpException, Injectable, InternalServerErrorException, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
 import { isAxiosError } from 'axios';
@@ -9,10 +9,10 @@ export class TasksProxyService {
   private readonly baseUrl: string;
 
   constructor(
-    private readonly http: HttpService,
-    configService: ConfigService,
+    @Inject(HttpService) private readonly http: HttpService,
+    @Inject(ConfigService) private readonly configService: ConfigService,
   ) {
-    this.baseUrl = configService.get<string>('TASKS_SERVICE_URL', 'http://tasks-service:3003');
+    this.baseUrl = this.configService.get<string>('TASKS_SERVICE_URL', 'http://tasks-service:3003');
   }
 
   list(params: unknown, authorization?: string, userId?: string): Promise<unknown> {

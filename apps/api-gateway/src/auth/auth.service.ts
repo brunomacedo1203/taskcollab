@@ -1,4 +1,4 @@
-import { HttpException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { HttpException, Injectable, InternalServerErrorException, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
 import { isAxiosError } from 'axios';
@@ -13,10 +13,10 @@ export class AuthProxyService {
   private readonly baseUrl: string;
 
   constructor(
-    private readonly http: HttpService,
-    configService: ConfigService,
+    @Inject(HttpService) private readonly http: HttpService,
+    @Inject(ConfigService) private readonly configService: ConfigService,
   ) {
-    this.baseUrl = configService.get<string>('AUTH_SERVICE_URL', 'http://auth-service:3002');
+    this.baseUrl = this.configService.get<string>('AUTH_SERVICE_URL', 'http://auth-service:3002');
   }
 
   async register(dto: RegisterDto): Promise<AuthTokensDto> {
