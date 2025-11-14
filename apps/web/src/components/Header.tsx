@@ -111,7 +111,10 @@ export const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
                 Login
               </Link>
               <Link to="/register">
-                <Button variant="secondary" size="sm">
+                <Button
+                  className="bg-transparent text-gray-100 hover:bg-white/10 border border-gray-700"
+                  size="sm"
+                >
                   Registrar
                 </Button>
               </Link>
@@ -124,7 +127,7 @@ export const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
                 className="flex items-center gap-2 hover:opacity-80 transition-opacity"
               >
                 {/* Avatar com iniciais */}
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-xs font-bold text-white shadow-lg">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center text-xs font-bold text-white shadow-lg">
                   {getInitials(user?.username)}
                 </div>
                 <span className="text-sm font-medium text-foreground hidden lg:inline">

@@ -67,13 +67,7 @@ export const RegisterPage: React.FC = () => {
                 <p className="text-red-400 text-sm font-medium">{error}</p>
               </div>
             )}
-            <Button
-              type="submit"
-              disabled={loading || isSubmitting}
-              className="w-full"
-              size="lg"
-              variant="secondary"
-            >
+            <Button type="submit" disabled={loading || isSubmitting} className="w-full" size="lg">
               {loading || isSubmitting ? 'Criando...' : 'Registrar'}
             </Button>
             <p className="text-sm text-foreground/70 text-center">

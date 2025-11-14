@@ -11,7 +11,7 @@
 body {
   @apply bg-background text-foreground antialiased;
   font-family: 'Inter', system-ui, sans-serif;
-  background: linear-gradient(180deg, #0a0a0f 0%, #050508 100%);
+  background: linear-gradient(180deg, #0f0f10 0%, #0a0a0a 100%);
   min-height: 100vh;
 }
 
@@ -48,25 +48,25 @@ body {
 
   .glow-effect {
     box-shadow:
-      0 0 10px rgba(0, 255, 136, 0.5),
-      0 0 20px rgba(0, 255, 136, 0.3);
+      0 0 10px rgba(156, 163, 175, 0.5),
+      0 0 20px rgba(156, 163, 175, 0.3);
   }
 
   .glow-effect-orange {
     box-shadow:
-      0 0 10px rgba(255, 107, 53, 0.5),
-      0 0 20px rgba(255, 107, 53, 0.3);
+      0 0 10px rgba(107, 114, 128, 0.5),
+      0 0 20px rgba(107, 114, 128, 0.3);
   }
 
   .text-glow {
     text-shadow:
-      0 0 10px rgba(0, 255, 136, 0.8),
-      0 0 20px rgba(0, 255, 136, 0.5);
+      0 0 10px rgba(229, 231, 235, 0.8),
+      0 0 20px rgba(229, 231, 235, 0.5);
   }
 
   .border-glow {
-    border-color: #00ff88;
-    box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+    border-color: #9ca3af;
+    box-shadow: 0 0 10px rgba(156, 163, 175, 0.3);
   }
 
   /* Thin scrollbar utility (scoped) */
@@ -95,14 +95,14 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1a1a24;
+  background: #1a1a1b;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #00ff88;
+  background: #6b7280;
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #00d4ff;
+  background: #9ca3af;
 }

@@ -35,7 +35,11 @@ export const TasksListPage: React.FC = () => {
     <div className="space-y-6 p-4 max-w-6xl mx-auto">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-gaming font-bold text-primary">Tarefas</h1>
-        <Button onClick={() => setShowCreate((v) => !v)} variant="secondary">
+        <Button
+          onClick={() => setShowCreate((v) => !v)}
+          variant="secondary"
+          className="bg-gradient-to-br from-emerald-500 to-emerald-700 text-white hover:brightness-105 shadow-lg"
+        >
           {showCreate ? 'Fechar' : 'Nova Tarefa'}
         </Button>
       </div>

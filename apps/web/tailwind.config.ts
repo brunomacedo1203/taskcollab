@@ -7,36 +7,36 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Gaming color palette - dark background with vibrant accents
-        background: '#0a0a0f',
-        foreground: '#f0f0f0',
-        muted: '#1a1a24',
+        // Neutral grayscale palette
+        background: '#0f0f10',
+        foreground: '#f5f5f5',
+        muted: '#1a1a1b',
         primary: {
-          DEFAULT: '#00ff88', // Neon green
-          foreground: '#0a0a0f',
+          DEFAULT: '#e5e7eb', // gray-200
+          foreground: '#111827', // gray-900
         },
         secondary: {
-          DEFAULT: '#ff6b35', // Vibrant orange
-          foreground: '#ffffff',
+          DEFAULT: '#9ca3af', // gray-400
+          foreground: '#111827',
         },
         accent: {
-          DEFAULT: '#ffd700', // Gold/yellow
-          foreground: '#0a0a0f',
+          DEFAULT: '#d1d5db', // gray-300
+          foreground: '#111827',
         },
-        border: '#2a2a3a',
-        input: '#2a2a3a',
-        ring: '#00ff88',
-        // Gaming specific colors
+        border: '#2d2d2f',
+        input: '#2d2d2f',
+        ring: '#9ca3af',
+        // Legacy "gaming" tokens now mapped to grayscale
         gaming: {
-          dark: '#0a0a0f',
-          darker: '#050508',
-          light: '#1a1a24',
+          dark: '#0f0f10',
+          darker: '#0a0a0a',
+          light: '#242426',
           neon: {
-            green: '#00ff88',
-            orange: '#ff6b35',
-            yellow: '#ffd700',
-            blue: '#00d4ff',
-            pink: '#ff00ff',
+            green: '#d1d5db',
+            orange: '#9ca3af',
+            yellow: '#e5e7eb',
+            blue: '#cbd5e1',
+            pink: '#e5e7eb',
           },
         },
       },
@@ -49,15 +49,15 @@ export default {
         gaming: ['Orbitron', 'Inter', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        'neon-green': '0 0 10px #00ff88, 0 0 20px #00ff88, 0 0 30px #00ff88',
-        'neon-orange': '0 0 10px #ff6b35, 0 0 20px #ff6b35, 0 0 30px #ff6b35',
-        'neon-yellow': '0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ffd700',
-        glow: '0 0 15px rgba(0, 255, 136, 0.5)',
+        'neon-green': '0 0 10px #9ca3af, 0 0 20px #9ca3af, 0 0 30px #9ca3af',
+        'neon-orange': '0 0 10px #6b7280, 0 0 20px #6b7280, 0 0 30px #6b7280',
+        'neon-yellow': '0 0 10px #d1d5db, 0 0 20px #d1d5db, 0 0 30px #d1d5db',
+        glow: '0 0 15px rgba(156, 163, 175, 0.5)',
       },
       backgroundImage: {
-        'gradient-gaming': 'linear-gradient(135deg, #00ff88 0%, #00d4ff 100%)',
-        'gradient-gaming-orange': 'linear-gradient(135deg, #ff6b35 0%, #ffd700 100%)',
-        'gradient-dark': 'linear-gradient(180deg, #0a0a0f 0%, #1a1a24 100%)',
+        'gradient-gaming': 'linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%)',
+        'gradient-gaming-orange': 'linear-gradient(135deg, #9ca3af 0%, #6b7280 100%)',
+        'gradient-dark': 'linear-gradient(180deg, #0f0f10 0%, #1a1a1b 100%)',
       },
     },
   },
