@@ -422,6 +422,10 @@ Essa etapa consolida o comportamento colaborativo do sistema e encerra a integra
 Nesta etapa o objetivo foi **realizar os testes finais de qualidade, confirmar a integridade da stack completa e validar a arquitetura full-stack em execução via Docker Compose**.  
 Todos os serviços foram inspecionados individualmente (Auth, Tasks, Notifications, API Gateway, RabbitMQ, Postgres e Web), garantindo comunicação estável, build limpo e notificações em tempo real entre usuários.
 
+### 🐳 Stack Docker — Containers ativos e saudáveis
+
+![Figura 21 – Containers ativos no Docker Desktop](./docs/images/day-10/fig-21-docker-desktop-health.png)
+
 Durante os testes de QA, foram executados:
 
 - 🧱 **Build global (`turbo run build`)** — todos os pacotes compilaram com sucesso.
