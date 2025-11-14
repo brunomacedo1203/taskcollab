@@ -18,6 +18,8 @@ export const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
   // Pegar a rota atual para indicador visual
   const router = useRouterState();
   const currentPath = router.location.pathname;
+  const showAppLinks =
+    currentPath !== '/' && currentPath !== '/login' && currentPath !== '/register';
 
   const handleLogout = () => {
     logout();
@@ -69,7 +71,7 @@ export const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6">
           {/* Link Tarefas com indicador ativo */}
-          {currentPath !== '/' && (
+          {showAppLinks && (
             <>
               <Link
                 to="/tasks"
@@ -180,7 +182,7 @@ export const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-border bg-gaming-dark/95 backdrop-blur-md">
           <nav className="container mx-auto px-4 py-4 flex flex-col gap-3">
-            {currentPath !== '/' && (
+            {showAppLinks && (
               <Link
                 to="/tasks"
                 onClick={() => setMobileMenuOpen(false)}
