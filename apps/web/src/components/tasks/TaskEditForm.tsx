@@ -51,7 +51,9 @@ export const TaskEditForm: React.FC<Props> = ({
 }) => {
   return (
     <div className="bg-gaming-light/50 backdrop-blur-sm border-2 border-border rounded-xl p-6 shadow-xl">
-      <h2 className="font-gaming font-bold text-xl text-primary mb-4">Editar Tarefa</h2>
+      <h2 className="font-gaming text-emerald-400 font-bold text-xl text-primary mb-4">
+        Editar Tarefa
+      </h2>
       <form className="grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={handleSubmit(onSubmit)}>
         {!canEdit && (
           <div className="md:col-span-2 mb-2 rounded-md border border-yellow-500/40 bg-yellow-500/10 p-3 text-xs text-yellow-300">
@@ -115,12 +117,7 @@ export const TaskEditForm: React.FC<Props> = ({
           />
         </div>
         <div className="md:col-span-2 flex justify-end gap-3">
-          <Button
-            type="submit"
-            disabled={isSubmitting || !isDirty || !canEdit}
-            variant="secondary"
-            size="lg"
-          >
+          <Button type="submit" disabled={isSubmitting || !isDirty || !canEdit}>
             {isSubmitting ? 'Salvando...' : 'Salvar alterações'}
           </Button>
         </div>

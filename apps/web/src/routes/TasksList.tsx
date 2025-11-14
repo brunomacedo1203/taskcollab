@@ -32,13 +32,15 @@ export const TasksListPage: React.FC = () => {
   } = useTasksListPage();
 
   return (
-    <div className="space-y-6 p-4 max-w-6xl mx-auto">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-gaming font-bold text-primary">Tarefas</h1>
+    <div className="space-y-4 md:space-y-6 p-3 sm:p-4 max-w-7xl mx-auto">
+      <div className="flex items-center justify-between gap-3">
+        <h1 className="text-2xl text-emerald-400 sm:text-3xl font-gaming font-bold text-primary">
+          Tarefas
+        </h1>
         <Button
           onClick={() => setShowCreate((v) => !v)}
           variant="secondary"
-          className="bg-gradient-to-br from-emerald-500 to-emerald-700 text-white hover:brightness-105 shadow-lg"
+          className="bg-gradient-to-br from-emerald-500 to-emerald-700 text-xs sm:text-sm px-3 sm:px-4 py-2 sm:py-2.5 text-white hover:brightness-105 shadow-lg whitespace-nowrap"
         >
           {showCreate ? 'Fechar' : 'Nova Tarefa'}
         </Button>
@@ -70,19 +72,19 @@ export const TasksListPage: React.FC = () => {
         <table className="min-w-full divide-y divide-border">
           <thead className="bg-gaming-light/80">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-gaming font-bold uppercase tracking-wider text-primary">
+              <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-gaming font-bold uppercase tracking-wider text-emerald-400">
                 Tarefa
               </th>
-              <th className="px-4 py-3 text-left text-xs font-gaming font-bold uppercase tracking-wider text-primary">
+              <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-gaming font-bold uppercase tracking-wider text-emerald-400">
                 Status
               </th>
-              <th className="px-4 py-3 text-left text-xs font-gaming font-bold uppercase tracking-wider text-primary">
+              <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-gaming font-bold uppercase tracking-wider text-emerald-400">
                 Prioridade
               </th>
-              <th className="px-4 py-3 text-left text-xs font-gaming font-bold uppercase tracking-wider text-primary">
+              <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-gaming font-bold uppercase tracking-wider text-emerald-400">
                 Vencimento
               </th>
-              <th className="px-4 py-3 text-center text-xs font-gaming font-bold uppercase tracking-wider text-primary">
+              <th className="px-2 sm:px-4 py-2 sm:py-3 text-center text-[10px] sm:text-xs font-gaming font-bold uppercase tracking-wider text-emerald-400">
                 Responsáveis
               </th>
               <th className="px-4 py-3"></th>
@@ -133,29 +135,35 @@ export const TasksListPage: React.FC = () => {
                   .filter(Boolean);
 
                 return (
-                  <tr key={t.id} className="hover:bg-gaming-light/50 transition-colors">
-                    <td className="px-4 py-3">
+                  <tr
+                    key={t.id}
+                    className="hover:bg-gaming-light/50 hover:shadow-lg transition-all duration-200"
+                  >
+                    <td className="px-2 sm:px-4 py-3 sm:py-4">
                       <div className="space-y-1">
                         <Link
                           to="/tasks/$id"
                           params={{ id: t.id }}
                           search={{ from: 'tasks' }}
-                          className="font-semibold text-primary hover:text-accent transition-colors"
+                          className="font-semibold text-sm sm:text-base text-emerald-400 hover:text-emerald-300 transition-colors"
                         >
                           {t.title}
                         </Link>
                         {t.description && (
-                          <div className="text-xs text-foreground/60 line-clamp-1">
+                          <div
+                            className="text-xs sm:text-sm text-foreground/70 max-w-[12rem] sm:max-w-[22rem] truncate"
+                            title={t.description}
+                          >
                             {t.description}
                           </div>
                         )}
-                        <div className="text-xs text-foreground/50 flex items-center gap-2 flex-wrap">
-                          <span>Criada em {new Date(t.createdAt).toLocaleDateString('pt-BR')}</span>
+                        <div className="text-[11px] sm:text-xs text-foreground/60 flex items-center gap-2 flex-wrap">
+                          <span>📅 {new Date(t.createdAt).toLocaleDateString('pt-BR')}</span>
                           {isAssignedToMe && t.lastAssignedByUsername && (
                             <>
                               <span>•</span>
-                              <span className="text-accent">
-                                Atribuída a você por {t.lastAssignedByUsername}
+                              <span className="text-emerald-400 font-medium">
+                                ✓ Atribuída a você por {t.lastAssignedByUsername}
                               </span>
                             </>
                           )}
@@ -169,27 +177,29 @@ export const TasksListPage: React.FC = () => {
                       </div>
                     </td>
 
-                    <td className="px-4 py-3">
-                      <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-primary/20 text-primary border border-primary/30">
+                    <td className="px-2 sm:px-4 py-3 sm:py-4">
+                      <span className="px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-semibold bg-primary/20 text-primary border border-primary/30 whitespace-nowrap">
                         {statusToPt(t.status)}
                       </span>
                     </td>
 
-                    <td className="px-4 py-3">
-                      <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-accent/20 text-accent border border-accent/30">
+                    <td className="px-2 sm:px-4 py-3 sm:py-4">
+                      <span className="px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-semibold bg-accent/20 text-accent border border-accent/30 whitespace-nowrap">
                         {priorityToPt(t.priority)}
                       </span>
                     </td>
 
-                    <td className="px-4 py-3 text-base text-foreground/80">
+                    <td className="px-2 sm:px-4 py-3 sm:py-4 text-xs sm:text-base text-foreground/80">
                       {t.dueDate ? new Date(t.dueDate).toLocaleDateString('pt-BR') : '—'}
                     </td>
 
-                    <td className="px-4 py-3">
+                    <td className="px-2 sm:px-4 py-3 sm:py-4">
                       {assigneeNames.length === 0 ? (
-                        <span className="text-foreground/50 text-sm">Não atribuída</span>
+                        <span className="px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-medium bg-gray-500/20 text-gray-300 border border-gray-500/30 whitespace-nowrap">
+                          Não atribuída
+                        </span>
                       ) : (
-                        <div className="flex items-center gap-1 flex-wrap justify-center">
+                        <div className="flex items-center gap-1 flex-wrap justify-center text-[11px] sm:text-xs">
                           {assigneeNames.slice(0, 2).map((name, idx) => (
                             <span
                               key={idx}
@@ -211,7 +221,7 @@ export const TasksListPage: React.FC = () => {
                       )}
                     </td>
 
-                    <td className="px-4 py-3 text-right">
+                    <td className="px-2 sm:px-4 py-3 sm:py-4 text-right">
                       <Link to="/tasks/$id" params={{ id: t.id }} search={{ from: 'tasks' }}>
                         <Button variant="outline" size="sm">
                           Detalhes

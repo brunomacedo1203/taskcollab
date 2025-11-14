@@ -12,7 +12,9 @@ export const TaskHeader: React.FC<Props> = ({ task, isAssignedToMe, onBackClick 
   return (
     <div className="flex items-center justify-between">
       <div>
-        <h1 className="text-3xl font-gaming font-bold text-primary mb-2">{task.title}</h1>
+        <h1 className="text-2xl text-emerald-400 font-gaming font-bold text-primary mb-2">
+          {task.title}
+        </h1>
         <p className="text-sm text-foreground/60">
           Criada em {new Date(task.createdAt).toLocaleString('pt-BR')}
           {task.lastAssignedByUsername || task.lastAssignedById || task.lastAssignedAt ? (

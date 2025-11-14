@@ -58,7 +58,9 @@ export const HistorySection: React.FC<Props> = ({ taskId }) => {
 
   return (
     <div className="space-y-4">
-      <h3 className="font-gaming font-bold text-xl text-primary">Histórico de alterações</h3>
+      <h3 className="font-gaming text-emerald-400 font-bold text-xl text-primary">
+        Histórico de alterações
+      </h3>
 
       <div className="rounded-xl border-2 border-border bg-gaming-light/30 backdrop-blur-sm divide-y divide-border shadow-xl">
         {isLoading || isFetching ? (

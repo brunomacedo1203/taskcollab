@@ -40,7 +40,7 @@ export const CommentsSection: React.FC<Props> = ({ taskId }) => {
 
   return (
     <div className="space-y-4">
-      <h3 className="font-gaming font-bold text-xl text-primary">Comentários</h3>
+      <h3 className="font-gaming text-emerald-400 font-bold text-xl text-primary">Comentários</h3>
 
       <div className="rounded-xl border-2 border-border bg-gaming-light/50 backdrop-blur-sm p-4 space-y-3 shadow-xl">
         <Textarea
