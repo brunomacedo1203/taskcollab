@@ -1,0 +1,12 @@
+{
+  "buttonLabel": "Notificações",
+  "title": "Notificações",
+  "markAllRead": "Marcar todas como lidas",
+  "empty": "Sem novas notificações.",
+  "defaultTitle": "Notificação",
+  "toast": {
+    "taskCreated": "Nova tarefa criada",
+    "taskUpdated": "Tarefa atualizada",
+    "newComment": "Novo comentário"
+  }
+}

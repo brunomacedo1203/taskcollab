@@ -1,0 +1,18 @@
+{
+  "title": "Task Collab",
+  "nav": {
+    "tasks": "Tarefas",
+    "conversations": "Conversations"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Registrar",
+    "logout": "Sair"
+  },
+  "profile": {
+    "fallbackEmail": "Usuário"
+  },
+  "mobile": {
+    "menuLabel": "Alternar menu"
+  }
+}

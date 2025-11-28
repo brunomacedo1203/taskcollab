@@ -1,0 +1,104 @@
+{
+  "list": {
+    "title": "Tarefas",
+    "toggleCreateOpen": "Fechar",
+    "toggleCreateClosed": "Nova Tarefa",
+    "createTitle": "Criar nova tarefa",
+    "loadingError": "Erro ao carregar tarefas.",
+    "empty": "Nenhuma tarefa encontrada.",
+    "headers": {
+      "task": "Tarefa",
+      "status": "Status",
+      "priority": "Prioridade",
+      "dueDate": "Vencimento",
+      "assignees": "Responsáveis"
+    },
+    "pagination": {
+      "pageOf": "Página {{current}} de {{total}}",
+      "previous": "Anterior",
+      "next": "Próxima"
+    },
+    "filters": {
+      "searchLabel": "Buscar",
+      "searchPlaceholder": "Título ou descrição...",
+      "allStatus": "Todos",
+      "allPriorities": "Todas"
+    },
+    "unassigned": "Não atribuída",
+    "details": "Detalhes",
+    "assignedToYouBy": "✓ Atribuída a você por {{username}}",
+    "assignedBy": "Atribuída por {{username}}"
+  },
+  "details": {
+    "discardTitle": "Descartar alterações?",
+    "discardDescription": "Você tem alterações não salvas. Deseja descartá-las e voltar à página anterior?",
+    "discardCancel": "Permanecer aqui",
+    "discardConfirm": "Descartar e voltar",
+    "backButton": "Voltar",
+    "createdAtPrefix": "Criada em",
+    "assignedToYouPrefix": "Atribuída a você por",
+    "assignedByPrefix": "Atribuída por",
+    "assignedAtPrefix": "em"
+  },
+  "status": {
+    "TODO": "A fazer",
+    "IN_PROGRESS": "Em andamento",
+    "REVIEW": "Em revisão",
+    "DONE": "Concluída"
+  },
+  "priority": {
+    "LOW": "Baixa",
+    "MEDIUM": "Média",
+    "HIGH": "Alta",
+    "URGENT": "Urgente"
+  },
+  "form": {
+    "create": {
+      "titleLabel": "Título",
+      "descriptionLabel": "Descrição",
+      "dueDateLabel": "Data limite",
+      "statusLabel": "Status",
+      "priorityLabel": "Prioridade",
+      "assignLabel": "Atribuir tarefa",
+      "assigneesPlaceholder": "Selecione usuários",
+      "cancel": "Cancelar",
+      "create": "Criar",
+      "creating": "Criando..."
+    },
+    "edit": {
+      "heading": "Editar Tarefa",
+      "onlyCreatorWarning": "Somente o criador desta tarefa pode editar os campos abaixo. Você ainda pode comentar.",
+      "save": "Salvar alterações",
+      "saving": "Salvando..."
+    },
+    "errors": {
+      "titleRequired": "Título é obrigatório",
+      "dueDateInvalid": "Data deve estar no formato YYYY-MM-DD"
+    }
+  },
+  "comments": {
+    "title": "Comentários",
+    "placeholder": "Escreva um comentário...",
+    "submit": "Enviar",
+    "submitting": "Enviando...",
+    "loadError": "Erro ao carregar comentários.",
+    "empty": "Sem comentários ainda.",
+    "authorLabel": "Autor",
+    "authorUnknown": "—",
+    "toastSuccess": "Comentário publicado!",
+    "toastErrorFallback": "Falha ao comentar"
+  },
+  "history": {
+    "title": "Histórico de alterações",
+    "loadError": "Erro ao carregar histórico.",
+    "empty": "Sem histórico ainda.",
+    "viewTask": "Ver tarefa",
+    "actor": "por {{actor}}",
+    "taskCreated": "Tarefa criada {{actor}}",
+    "commentAdded": "Comentário adicionado {{actor}}",
+    "taskUpdated": "Tarefa atualizada ({{changes}}) {{actor}}",
+    "taskUpdatedNoChanges": "sem mudanças",
+    "dueDateField": "data limite",
+    "assigneesField": "assignees"
+  }
+}

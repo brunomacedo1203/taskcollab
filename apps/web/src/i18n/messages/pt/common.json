@@ -1,0 +1,12 @@
+{
+  "appName": "Task Collab",
+  "loading": "Carregando...",
+  "save": "Salvar",
+  "cancel": "Cancelar",
+  "close": "Fechar",
+  "confirm": "Confirmar",
+  "language": {
+    "portuguese": "Português",
+    "english": "Inglês"
+  }
+}
