@@ -11,7 +11,7 @@
 body {
   @apply bg-background text-foreground antialiased;
   font-family: 'Inter', system-ui, sans-serif;
-  background: linear-gradient(180deg, #0f0f10 0%, #0a0a0a 100%);
+  background: linear-gradient(180deg, #202020 0%, #141414 100%);
   min-height: 100vh;
 }
 
@@ -95,7 +95,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1a1a1b;
+  background: #2a2a2a;
 }
 
 ::-webkit-scrollbar-thumb {
