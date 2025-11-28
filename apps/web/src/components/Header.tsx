@@ -4,10 +4,13 @@ import { useAuthStore } from '../features/auth/store';
 import { Button } from './ui/button';
 import { NotificationsDropdown } from './NotificationsDropdown';
 import { Menu, X, LogOut } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { LanguageSwitcher } from './LanguageSwitcher';
 
 type HeaderProps = { isAuthenticated: boolean };
 
 export const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
+  const { t } = useTranslation(['header', 'common']);
   const user = useAuthStore((s) => s.user);
   const logout = useAuthStore((s) => s.logout);
   const navigate = useNavigate();
@@ -65,7 +68,7 @@ export const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
           to="/"
           className="font-gaming font-bold text-xl text-primary hover:text-accent transition-colors duration-300 text-glow"
         >
-          Task Collab
+          {t('title', { ns: 'header' })}
         </Link>
 
         {/* Desktop Navigation */}
@@ -81,7 +84,7 @@ export const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
                     : 'text-foreground hover:text-primary'
                 }`}
               >
-                Tarefas
+                {t('nav.tasks', { ns: 'header' })}
                 {currentPath.startsWith('/tasks') && (
                   <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
                 )}
@@ -94,7 +97,7 @@ export const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
                     : 'text-foreground hover:text-primary'
                 }`}
               >
-                Conversations
+                {t('nav.conversations', { ns: 'header' })}
                 {currentPath.startsWith('/conversations') && (
                   <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
                 )}
@@ -103,6 +106,7 @@ export const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
           )}
 
           {isAuthenticated && <NotificationsDropdown />}
+          <LanguageSwitcher />
 
           {!isAuthenticated ? (
             <>
@@ -110,14 +114,14 @@ export const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
                 to="/login"
                 className="text-sm font-medium text-foreground hover:text-primary transition-colors duration-300"
               >
-                Login
+                {t('auth.login', { ns: 'header' })}
               </Link>
               <Link to="/register">
                 <Button
                   className="bg-transparent text-gray-100 hover:bg-white/10 border border-gray-700"
                   size="sm"
                 >
-                  Registrar
+                  {t('auth.register', { ns: 'header' })}
                 </Button>
               </Link>
             </>
@@ -147,7 +151,9 @@ export const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
                   {/* Header do dropdown */}
                   <div className="px-4 py-3 border-b border-border bg-gaming-dark/50">
                     <p className="text-sm font-semibold text-foreground">{user?.username}</p>
-                    <p className="text-xs text-foreground/60">{user?.email || 'Usuário'}</p>
+                    <p className="text-xs text-foreground/60">
+                      {user?.email || t('profile.fallbackEmail', { ns: 'header' })}
+                    </p>
                   </div>
 
                   {/* Opções */}
@@ -159,7 +165,7 @@ export const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
                       className="w-full px-4 py-2 text-left text-sm text-red-400 hover:bg-red-500/10 transition-colors flex items-center gap-3"
                     >
                       <LogOut className="w-4 h-4" />
-                      Sair
+                      {t('auth.logout', { ns: 'header' })}
                     </button>
                   </div>
                 </div>
@@ -172,7 +178,7 @@ export const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="md:hidden text-foreground hover:text-primary transition-colors p-2"
-          aria-label="Toggle menu"
+          aria-label={t('mobile.menuLabel', { ns: 'header' })}
         >
           {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
@@ -192,7 +198,7 @@ export const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
                     : 'text-foreground hover:bg-gaming-light/30'
                 }`}
               >
-                Tarefas
+                {t('nav.tasks', { ns: 'header' })}
               </Link>
             )}
 
@@ -203,11 +209,11 @@ export const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
                   onClick={() => setMobileMenuOpen(false)}
                   className="px-4 py-2 rounded-lg text-sm font-medium text-foreground hover:bg-gaming-light/30 transition-colors"
                 >
-                  Login
+                  {t('auth.login', { ns: 'header' })}
                 </Link>
                 <Link to="/register" onClick={() => setMobileMenuOpen(false)}>
                   <Button variant="secondary" size="sm" className="w-full">
-                    Registrar
+                    {t('auth.register', { ns: 'header' })}
                   </Button>
                 </Link>
               </>
@@ -220,7 +226,9 @@ export const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-foreground">{user?.username}</p>
-                      <p className="text-xs text-foreground/60">{user?.email || 'Usuário'}</p>
+                      <p className="text-xs text-foreground/60">
+                        {user?.email || t('profile.fallbackEmail', { ns: 'header' })}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -231,12 +239,15 @@ export const Header: React.FC<HeaderProps> = ({ isAuthenticated }) => {
                     className="w-full px-4 py-2 rounded-lg text-sm font-medium text-red-400 hover:bg-red-500/10 transition-colors text-left flex items-center gap-3"
                   >
                     <LogOut className="w-4 h-4" />
-                    Sair
+                    {t('auth.logout', { ns: 'header' })}
                   </button>
                 </div>
               </>
             )}
           </nav>
+          <div className="mt-3 px-4">
+            <LanguageSwitcher />
+          </div>
         </div>
       )}
     </header>

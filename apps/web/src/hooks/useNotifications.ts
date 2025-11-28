@@ -5,6 +5,7 @@ import api from '../lib/api';
 import { useAuthStore } from '../features/auth/store';
 import { useToast } from '../components/ui/toast';
 import { useNotificationsStore } from '../features/notifications/store';
+import { useTranslation } from 'react-i18next';
 
 function getWsBaseUrl(): string {
   const env = (import.meta as any).env?.VITE_WS_URL as string | undefined;
@@ -26,6 +27,7 @@ function getWsBaseUrl(): string {
 }
 
 export function useNotifications(): void {
+  const { t } = useTranslation('notifications');
   const accessToken = useAuthStore((s) => s.accessToken);
   const { show } = useToast();
   const wsRef = useRef<WebSocket | null>(null);
@@ -121,16 +123,16 @@ export function useNotifications(): void {
           if (!event) return;
           switch (event) {
             case 'task:created':
-              show('Nova tarefa criada', { type: 'info' });
+              show(t('toast.taskCreated'), { type: 'info' });
               // refresh unread list to reflect new notification
               bootstrap(10).catch(() => {});
               break;
             case 'task:updated':
-              show('Tarefa atualizada', { type: 'info' });
+              show(t('toast.taskUpdated'), { type: 'info' });
               bootstrap(10).catch(() => {});
               break;
             case 'comment:new':
-              show('Novo comentário', { type: 'info' });
+              show(t('toast.newComment'), { type: 'info' });
               bootstrap(10).catch(() => {});
               break;
             case 'notification:unread':

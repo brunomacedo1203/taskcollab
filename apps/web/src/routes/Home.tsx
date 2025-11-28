@@ -11,18 +11,20 @@ import {
 } from 'lucide-react';
 import { getRelativeTime, isSameDayISO } from '../lib/time';
 import { useHomeViewModel } from '../features/home/useHomeViewModel';
+import { useTranslation } from 'react-i18next';
 
 export const HomePage: React.FC = () => {
   const { user, usersById, subtitle, counters, urgentTasks, recentActivity } = useHomeViewModel();
   const shouldScrollRecent = recentActivity.length > 4;
   const shouldScrollUrgent = urgentTasks.length > 4;
+  const { t } = useTranslation('home');
 
   return (
     <div className="min-h-[calc(100vh-4rem)] py-8 px-4 max-w-7xl mx-auto">
       {/* Header */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-gaming font-bold text-primary mb-4">
-          Bem-vindo(a){user ? `, ${user.username}` : ''}!
+          {user ? t('header.welcomeUser', { username: user.username }) : t('header.welcomeAnon')}
         </h1>
         <p className="text-foreground/70 text-lg">{subtitle}</p>
       </div>
@@ -36,18 +38,19 @@ export const HomePage: React.FC = () => {
         >
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2 text-foreground/80 text-sm font-medium">
-              <span className="inline-flex h-2 w-2 rounded-full bg-primary" /> TODO
+              <span className="inline-flex h-2 w-2 rounded-full bg-primary" />{' '}
+              {t('statusCards.todoTitle')}
             </div>
             {counters.myTodo > 0 && (
               <span className="text-xs bg-primary/20 text-primary px-2 py-0.5 rounded-full">
-                {counters.myTodo} suas
+                {t('statusCards.todoBadge', { count: counters.myTodo })}
               </span>
             )}
           </div>
           <div className="text-3xl font-bold text-foreground group-hover:text-primary transition-colors">
             {counters.todo}
           </div>
-          <p className="text-xs text-foreground/50 mt-2">Clique para filtrar</p>
+          <p className="text-xs text-foreground/50 mt-2">{t('statusCards.clickToFilter')}</p>
         </Link>
 
         <Link
@@ -57,18 +60,19 @@ export const HomePage: React.FC = () => {
         >
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2 text-foreground/80 text-sm font-medium">
-              <span className="inline-flex h-2 w-2 rounded-full bg-accent" /> EM ANDAMENTO
+              <span className="inline-flex h-2 w-2 rounded-full bg-accent" />{' '}
+              {t('statusCards.inProgressTitle')}
             </div>
             {counters.myInProgress > 0 && (
               <span className="text-xs bg-accent/20 text-accent px-2 py-0.5 rounded-full">
-                {counters.myInProgress} suas
+                {t('statusCards.inProgressBadge', { count: counters.myInProgress })}
               </span>
             )}
           </div>
           <div className="text-3xl font-bold text-foreground group-hover:text-accent transition-colors">
             {counters.inProgress}
           </div>
-          <p className="text-xs text-foreground/50 mt-2">Clique para filtrar</p>
+          <p className="text-xs text-foreground/50 mt-2">{t('statusCards.clickToFilter')}</p>
         </Link>
 
         <Link
@@ -77,12 +81,13 @@ export const HomePage: React.FC = () => {
           className="rounded-xl border-2 border-border bg-gaming-light/40 p-6 hover:bg-gaming-light/60 hover:border-fuchsia-500/50 transition-all group"
         >
           <div className="flex items-center gap-2 text-foreground/80 text-sm font-medium mb-2">
-            <span className="inline-flex h-2 w-2 rounded-full bg-fuchsia-500" /> EM REVISÃO
+            <span className="inline-flex h-2 w-2 rounded-full bg-fuchsia-500" />{' '}
+            {t('statusCards.reviewTitle')}
           </div>
           <div className="text-3xl font-bold text-foreground group-hover:text-fuchsia-400 transition-colors">
             {counters.review}
           </div>
-          <p className="text-xs text-foreground/50 mt-2">Clique para filtrar</p>
+          <p className="text-xs text-foreground/50 mt-2">{t('statusCards.clickToFilter')}</p>
         </Link>
 
         <Link
@@ -91,12 +96,13 @@ export const HomePage: React.FC = () => {
           className="rounded-xl border-2 border-border bg-gaming-light/40 p-6 hover:bg-gaming-light/60 hover:border-secondary/50 transition-all group"
         >
           <div className="flex items-center gap-2 text-foreground/80 text-sm font-medium mb-2">
-            <span className="inline-flex h-2 w-2 rounded-full bg-secondary" /> CONCLUÍDAS
+            <span className="inline-flex h-2 w-2 rounded-full bg-secondary" />{' '}
+            {t('statusCards.doneTitle')}
           </div>
           <div className="text-3xl font-bold text-foreground group-hover:text-secondary transition-colors">
             {counters.done}
           </div>
-          <p className="text-xs text-foreground/50 mt-2">Clique para filtrar</p>
+          <p className="text-xs text-foreground/50 mt-2">{t('statusCards.clickToFilter')}</p>
         </Link>
       </div>
 
@@ -105,11 +111,11 @@ export const HomePage: React.FC = () => {
         <div className="rounded-xl border-2 border-border bg-gaming-light/40 p-6 flex flex-col">
           <div className="flex items-center gap-2 mb-4">
             <TrendingUp className="w-5 h-5 text-primary" />
-            <h2 className="text-xl font-gaming font-bold text-foreground">Atividade Recente</h2>
+            <h2 className="text-xl font-gaming font-bold text-foreground">
+              {t('header.recentTitle')}
+            </h2>
           </div>
-          <p className="text-xs text-foreground/50 mb-3">
-            Últimas 24h (criações), concluídas hoje e notificações
-          </p>
+          <p className="text-xs text-foreground/50 mb-3">{t('header.recentDescription')}</p>
           {recentActivity.length > 0 ? (
             <div
               className={`space-y-3 flex-1 ${
@@ -168,7 +174,7 @@ export const HomePage: React.FC = () => {
           ) : (
             <div className="flex-1 flex flex-col items-center justify-center text-center py-8 text-foreground/50">
               <MessageSquare className="w-12 h-12 mx-auto mb-2 opacity-30" />
-              <p className="text-sm">Nenhuma atividade recente</p>
+              <p className="text-sm">{t('recentActivity.empty')}</p>
             </div>
           )}
         </div>
@@ -177,7 +183,7 @@ export const HomePage: React.FC = () => {
         <div className="rounded-xl border-2 border-border bg-gaming-light/40 p-6 flex flex-col">
           <div className="flex items-center gap-2 mb-4">
             <AlertCircle className="w-5 h-5 text-orange-500" />
-            <h2 className="text-xl font-gaming font-bold text-foreground">Requer Atenção</h2>
+            <h2 className="text-xl font-gaming font-bold text-foreground">{t('urgent.title')}</h2>
 
             {urgentTasks.length > 0 && (
               <span className="ml-auto text-xs bg-orange-500/20 text-orange-500 px-2 py-1 rounded-full font-medium">
@@ -185,9 +191,7 @@ export const HomePage: React.FC = () => {
               </span>
             )}
           </div>
-          <p className="text-xs text-foreground/50 mb-3">
-            Urgentes, Alta com prazo até amanhã, ou suas com prazo hoje
-          </p>
+          <p className="text-xs text-foreground/50 mb-3">{t('urgent.description')}</p>
           {urgentTasks.length > 0 ? (
             <>
               <div
@@ -218,12 +222,12 @@ export const HomePage: React.FC = () => {
 
                   const badge = isMyTask
                     ? {
-                        text: 'PARA VOCÊ',
+                        text: t('urgent.badgeForYou'),
                         classes: 'bg-blue-500/20 text-blue-400 border-blue-500/40',
                       }
                     : assignedByMe
                       ? {
-                          text: 'AGUARDANDO',
+                          text: t('urgent.badgeWaiting'),
                           classes: 'bg-orange-500/20 text-orange-400 border-orange-500/40',
                         }
                       : null;
@@ -235,7 +239,7 @@ export const HomePage: React.FC = () => {
                   let reason: { text: string; classes: string } | null = null;
                   if (task.priority === 'URGENT') {
                     reason = {
-                      text: 'Urgente',
+                      text: t('urgent.reasonUrgent'),
                       classes: 'bg-red-500/20 text-red-400 border-red-500/40',
                     };
                   } else if (
@@ -244,12 +248,12 @@ export const HomePage: React.FC = () => {
                     new Date(task.dueDate) <= tomorrow
                   ) {
                     reason = {
-                      text: 'Alta • Vence até amanhã',
+                      text: t('urgent.reasonHighDueSoon'),
                       classes: 'bg-orange-500/20 text-orange-400 border-orange-500/40',
                     };
                   } else if (isMyTask && task.dueDate && isSameDayISO(task.dueDate, now)) {
                     reason = {
-                      text: 'Prazo hoje',
+                      text: t('urgent.reasonDueToday'),
                       classes: 'bg-violet-500/20 text-violet-400 border-violet-500/40',
                     };
                   }
@@ -325,20 +329,20 @@ export const HomePage: React.FC = () => {
               {/* Legend (fora da área rolável) */}
               <div className="flex items-center gap-6 pt-2 text-[11px] text-foreground/60">
                 <span className="inline-flex items-center gap-2">
-                  <span className="inline-block w-2 h-2 rounded-full bg-blue-500" /> Atribuída a
-                  você
+                  <span className="inline-block w-2 h-2 rounded-full bg-blue-500" />{' '}
+                  {t('urgent.legendAssignedToYou')}
                 </span>
                 <span className="inline-flex items-center gap-2">
-                  <span className="inline-block w-2 h-2 rounded-full bg-orange-500" /> Atribuída a
-                  outra pessoa
+                  <span className="inline-block w-2 h-2 rounded-full bg-orange-500" />{' '}
+                  {t('urgent.legendAssignedToOther')}
                 </span>
               </div>
             </>
           ) : (
             <div className="flex-1 flex flex-col items-center justify-center text-center py-8 text-foreground/50">
               <AlertCircle className="w-12 h-12 mx-auto mb-2 opacity-30" />
-              <p className="text-sm">Nenhuma tarefa urgente</p>
-              <p className="text-xs mt-1">Continue assim! 🎉</p>
+              <p className="text-sm">{t('urgent.emptyTitle')}</p>
+              <p className="text-xs mt-1">{t('urgent.emptySubtitle')}</p>
             </div>
           )}
         </div>
@@ -350,7 +354,7 @@ export const HomePage: React.FC = () => {
           to="/tasks"
           className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
         >
-          Ver Todas as Tarefas
+          {t('cta.viewAllTasks')}
         </Link>
       </div>
     </div>

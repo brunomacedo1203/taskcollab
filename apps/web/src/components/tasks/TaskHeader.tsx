@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Task } from '../../features/tasks/types';
 import { Button } from '../ui/button';
 
@@ -9,6 +10,7 @@ type Props = {
 };
 
 export const TaskHeader: React.FC<Props> = ({ task, isAssignedToMe, onBackClick }) => {
+  const { t } = useTranslation('tasks');
   return (
     <div className="flex items-center justify-between">
       <div>
@@ -16,26 +18,28 @@ export const TaskHeader: React.FC<Props> = ({ task, isAssignedToMe, onBackClick 
           {task.title}
         </h1>
         <p className="text-sm text-foreground/60">
-          Criada em {new Date(task.createdAt).toLocaleString('pt-BR')}
+          {t('details.createdAtPrefix')} {new Date(task.createdAt).toLocaleString()}
           {task.lastAssignedByUsername || task.lastAssignedById || task.lastAssignedAt ? (
             <>
               {' '}
               •{' '}
               {isAssignedToMe ? (
                 <span className="text-accent">
-                  Atribuída a você por{' '}
+                  {t('details.assignedToYouPrefix')}{' '}
                   {task.lastAssignedByUsername ??
                     (task.lastAssignedById ? task.lastAssignedById.slice(0, 8) : '—')}
                 </span>
               ) : (
                 <span>
-                  Atribuída por{' '}
+                  {t('details.assignedByPrefix')}{' '}
                   {task.lastAssignedByUsername ??
                     (task.lastAssignedById ? task.lastAssignedById.slice(0, 8) : '—')}
                 </span>
               )}
               {task.lastAssignedAt
-                ? ` em ${new Date(task.lastAssignedAt).toLocaleString('pt-BR')}`
+                ? ` ${t('details.assignedAtPrefix')} ${new Date(
+                    task.lastAssignedAt,
+                  ).toLocaleString()}`
                 : ''}
             </>
           ) : null}
@@ -43,7 +47,7 @@ export const TaskHeader: React.FC<Props> = ({ task, isAssignedToMe, onBackClick 
       </div>
       <div className="flex gap-2">
         <Button variant="outline" onClick={onBackClick}>
-          Voltar
+          {t('details.backButton')}
         </Button>
       </div>
     </div>

@@ -7,9 +7,11 @@ import { listUsers, type UserSummary } from '../users/users.api';
 import { useNotificationsStore } from '../notifications/store';
 import { isSameDayISO } from '../../lib/time';
 import type { Task } from '../tasks/types';
+import { useTranslation } from 'react-i18next';
 
 export const useHomeViewModel = () => {
   useAuthGuard();
+  const { t } = useTranslation('home');
   const user = useAuthStore((s) => s.user);
   const notifications = useNotificationsStore((s) => s.items);
   const unreadCount = notifications.length;
@@ -53,22 +55,25 @@ export const useHomeViewModel = () => {
     }).length;
 
     if (unreadCount > 0) {
-      return `${unreadCount} nova${unreadCount > 1 ? 's' : ''} notificaç${
-        unreadCount > 1 ? 'ões' : 'ão'
-      } desde sua última visita`;
+      if (unreadCount === 1) {
+        return t('subtitle.unreadOne');
+      }
+      return t('subtitle.unreadMany', { count: unreadCount });
     }
     if (myTasksToday > 0) {
-      return `Você tem ${myTasksToday} tarefa${myTasksToday > 1 ? 's' : ''} atribuída${
-        myTasksToday > 1 ? 's' : ''
-      } para hoje`;
+      if (myTasksToday === 1) {
+        return t('subtitle.todayOne');
+      }
+      return t('subtitle.todayMany', { count: myTasksToday });
     }
     if (completedThisWeek > 0) {
-      return `${completedThisWeek} tarefa${
-        completedThisWeek > 1 ? 's concluídas' : ' concluída'
-      } esta semana 🎉`;
+      if (completedThisWeek === 1) {
+        return t('subtitle.completedOne');
+      }
+      return t('subtitle.completedMany', { count: completedThisWeek });
     }
-    return 'Tudo em dia! Hora de pegar novas tarefas 💪';
-  }, [data, unreadCount, user?.id]);
+    return t('subtitle.allGood');
+  }, [data, unreadCount, user?.id, t]);
 
   const counters = useMemo(() => {
     const tasks = (data?.data ?? []) as Task[];
@@ -142,7 +147,7 @@ export const useHomeViewModel = () => {
       .slice(0, 3)
       .forEach((t) => {
         activities.push({
-          message: `Nova tarefa criada: ${t.title}`,
+          message: t('activity.taskCreated', { title: t.title }),
           time: t.createdAt,
           type: 'task_created',
         });
@@ -156,7 +161,7 @@ export const useHomeViewModel = () => {
       .slice(0, 3)
       .forEach((t) => {
         activities.push({
-          message: `Tarefa concluída: ${t.title}`,
+          message: t('activity.taskCompleted', { title: t.title }),
           time: t.updatedAt || t.createdAt,
           type: 'task_completed',
         });
@@ -164,7 +169,7 @@ export const useHomeViewModel = () => {
 
     notifications.slice(0, 2).forEach((n) => {
       activities.push({
-        message: n.body || n.title || 'Notificação',
+        message: n.body || n.title || t('activity.notificationFallback'),
         time: n.createdAt || new Date().toISOString(),
         type: 'notification',
       });
@@ -173,7 +178,7 @@ export const useHomeViewModel = () => {
     return activities
       .sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
       .slice(0, 5);
-  }, [data, notifications]);
+  }, [data, notifications, t]);
 
   return { user, usersById, subtitle, counters, urgentTasks, recentActivity };
 };

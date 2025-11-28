@@ -5,37 +5,14 @@ import type { UUID, TaskHistory } from '../features/tasks/types';
 import { Skeleton } from './Skeleton';
 import { Link } from '@tanstack/react-router';
 import { listUsers, type UserSummary } from '../features/users/users.api';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   taskId: UUID;
 };
 
-function formatEvent(
-  e: TaskHistory,
-  usersById: Map<string, UserSummary>,
-): { title: string; details?: string } {
-  const actorLabel = e.actorId
-    ? (usersById.get(e.actorId)?.username ?? e.actorId.slice(0, 8))
-    : '—';
-  const actor = `por ${actorLabel}`;
-  if (e.type === 'TASK_CREATED') {
-    return { title: `Tarefa criada ${actor}` };
-  }
-  if (e.type === 'COMMENT_CREATED') {
-    const content = (e.payload?.content as string | undefined) ?? '';
-    return { title: `Comentário adicionado ${actor}`, details: content };
-  }
-  if (e.type === 'TASK_UPDATED') {
-    const changed = Object.keys((e.payload as Record<string, unknown>) ?? {});
-    const pretty = changed
-      .map((k) => (k === 'dueDate' ? 'data limite' : k === 'assigneeIds' ? 'assignees' : k))
-      .join(', ');
-    return { title: `Tarefa atualizada (${pretty || 'sem mudanças'}) ${actor}` };
-  }
-  return { title: e.type };
-}
-
 export const HistorySection: React.FC<Props> = ({ taskId }) => {
+  const { t } = useTranslation('tasks');
   const [page] = React.useState(1);
   const size = 10;
 
@@ -56,10 +33,43 @@ export const HistorySection: React.FC<Props> = ({ taskId }) => {
     return m;
   }, [usersData]);
 
+  const formatEvent = React.useCallback(
+    (e: TaskHistory): { title: string; details?: string } => {
+      const actorLabel = e.actorId
+        ? (usersById.get(e.actorId)?.username ?? e.actorId.slice(0, 8))
+        : t('comments.authorUnknown');
+      const actor = t('history.actor', { actor: actorLabel });
+
+      if (e.type === 'TASK_CREATED') {
+        return { title: t('history.taskCreated', { actor }) };
+      }
+      if (e.type === 'COMMENT_CREATED') {
+        const content = (e.payload?.content as string | undefined) ?? '';
+        return { title: t('history.commentAdded', { actor }), details: content };
+      }
+      if (e.type === 'TASK_UPDATED') {
+        const changed = Object.keys((e.payload as Record<string, unknown>) ?? {});
+        const pretty = changed
+          .map((k) =>
+            k === 'dueDate'
+              ? t('history.dueDateField')
+              : k === 'assigneeIds'
+                ? t('history.assigneesField')
+                : k,
+          )
+          .join(', ');
+        const changesLabel = pretty || t('history.taskUpdatedNoChanges');
+        return { title: t('history.taskUpdated', { changes: changesLabel, actor }) };
+      }
+      return { title: e.type };
+    },
+    [t, usersById],
+  );
+
   return (
     <div className="space-y-4">
       <h3 className="font-gaming text-emerald-400 font-bold text-xl text-primary">
-        Histórico de alterações
+        {t('history.title')}
       </h3>
 
       <div className="rounded-xl border-2 border-border bg-gaming-light/30 backdrop-blur-sm divide-y divide-border shadow-xl">
@@ -71,9 +81,9 @@ export const HistorySection: React.FC<Props> = ({ taskId }) => {
             </div>
           ))
         ) : isError ? (
-          <div className="p-4 text-sm text-red-400 font-medium">Erro ao carregar histórico.</div>
+          <div className="p-4 text-sm text-red-400 font-medium">{t('history.loadError')}</div>
         ) : !data || data.data.length === 0 ? (
-          <div className="p-4 text-sm text-foreground/70 text-center">Sem histórico ainda.</div>
+          <div className="p-4 text-sm text-foreground/70 text-center">{t('history.empty')}</div>
         ) : (
           <ul>
             {data.data.map((h) => {
@@ -98,7 +108,7 @@ export const HistorySection: React.FC<Props> = ({ taskId }) => {
                         params={{ id: h.taskId }}
                         className="text-xs text-primary hover:text-accent font-semibold"
                       >
-                        Ver tarefa
+                        {t('history.viewTask')}
                       </Link>
                     )}
                   </div>

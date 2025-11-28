@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Button } from './ui/button';
+import { useTranslation } from 'react-i18next';
 
 type ConfirmDialogProps = {
   open: boolean;
@@ -15,11 +16,12 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   open,
   title,
   description,
-  confirmText = 'Confirmar',
-  cancelText = 'Cancelar',
+  confirmText,
+  cancelText,
   onConfirm,
   onCancel,
 }) => {
+  const { t } = useTranslation('common');
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -53,10 +55,10 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
         {description && <p className="text-sm text-foreground/70 mb-4">{description}</p>}
         <div className="flex justify-end gap-2">
           <Button variant="outline" onClick={onCancel}>
-            {cancelText}
+            {cancelText ?? t('cancel')}
           </Button>
           <Button variant="secondary" onClick={onConfirm}>
-            {confirmText}
+            {confirmText ?? t('confirm')}
           </Button>
         </div>
       </div>

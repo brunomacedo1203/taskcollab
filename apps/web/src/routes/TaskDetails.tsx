@@ -7,8 +7,10 @@ import { TaskDetailsError } from '../components/tasks/TaskDetailsError';
 import { TaskHeader } from '../components/tasks/TaskHeader';
 import { TaskEditForm } from '../components/tasks/TaskEditForm';
 import { useTaskDetailsPage } from '../features/tasks/useTaskDetailsPage';
+import { useTranslation } from 'react-i18next';
 
 export const TaskDetailsPage: React.FC = () => {
+  const { t } = useTranslation('tasks');
   const {
     task,
     isLoading,
@@ -61,10 +63,10 @@ export const TaskDetailsPage: React.FC = () => {
 
       <ConfirmDialog
         open={confirmLeaveOpen}
-        title="Descartar alterações?"
-        description="Você tem alterações não salvas. Deseja descartá-las e voltar à página anterior?"
-        cancelText="Permanecer aqui"
-        confirmText="Descartar e voltar"
+        title={t('details.discardTitle')}
+        description={t('details.discardDescription')}
+        cancelText={t('details.discardCancel')}
+        confirmText={t('details.discardConfirm')}
         onCancel={() => setConfirmLeaveOpen(false)}
         onConfirm={() => {
           setConfirmLeaveOpen(false);

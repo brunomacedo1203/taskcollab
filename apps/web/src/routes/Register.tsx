@@ -7,8 +7,10 @@ import { useRegisterPage } from '../features/auth/useRegisterPage';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerFormSchema, type RegisterFormValues } from '../features/auth/forms/registerForm';
+import { useTranslation } from 'react-i18next';
 
 export const RegisterPage: React.FC = () => {
+  const { t } = useTranslation('auth');
   const { loading, error, submit } = useRegisterPage();
   const {
     register: formRegister,
@@ -21,16 +23,16 @@ export const RegisterPage: React.FC = () => {
       <div className="max-w-md w-full">
         <div className="bg-gaming-light/50 backdrop-blur-sm border-2 border-border rounded-2xl p-8 shadow-xl">
           <h1 className="text-3xl font-gaming font-bold text-primary mb-2 text-center">
-            Criar conta
+            {t('register.title')}
           </h1>
-          <p className="text-foreground/70 text-sm text-center mb-8">Junte-se ao Task Collab</p>
+          <p className="text-foreground/70 text-sm text-center mb-8">{t('register.subtitle')}</p>
           <form onSubmit={handleSubmit(submit)} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email">E-mail</Label>
+              <Label htmlFor="email">{t('register.email')}</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="seu@email.com"
+                placeholder={t('register.emailPlaceholder')}
                 {...formRegister('email')}
               />
               {errors.email && (
@@ -40,8 +42,12 @@ export const RegisterPage: React.FC = () => {
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
-              <Input id="username" placeholder="seu_usuario" {...formRegister('username')} />
+              <Label htmlFor="username">{t('register.username')}</Label>
+              <Input
+                id="username"
+                placeholder={t('register.usernamePlaceholder')}
+                {...formRegister('username')}
+              />
               {errors.username && (
                 <p className="text-sm text-red-400 mt-1 font-medium">
                   {errors.username.message as string}
@@ -49,11 +55,11 @@ export const RegisterPage: React.FC = () => {
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Senha</Label>
+              <Label htmlFor="password">{t('register.password')}</Label>
               <Input
                 id="password"
                 type="password"
-                placeholder="••••••••"
+                placeholder={t('register.passwordPlaceholder')}
                 {...formRegister('password')}
               />
               {errors.password && (
@@ -68,15 +74,15 @@ export const RegisterPage: React.FC = () => {
               </div>
             )}
             <Button type="submit" disabled={loading || isSubmitting} className="w-full" size="lg">
-              {loading || isSubmitting ? 'Criando...' : 'Registrar'}
+              {loading || isSubmitting ? t('register.submitting') : t('register.submit')}
             </Button>
             <p className="text-sm text-foreground/70 text-center">
-              Já tem conta?{' '}
+              {t('register.hasAccount')}{' '}
               <Link
                 to="/login"
                 className="text-primary hover:text-accent font-semibold transition-colors"
               >
-                Entrar
+                {t('register.goToLogin')}
               </Link>
             </p>
           </form>
