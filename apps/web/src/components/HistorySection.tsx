@@ -87,7 +87,7 @@ export const HistorySection: React.FC<Props> = ({ taskId }) => {
         ) : (
           <ul>
             {data.data.map((h) => {
-              const { title, details } = formatEvent(h, usersById);
+              const { title, details } = formatEvent(h);
               return (
                 <li key={h.id} className="p-4 hover:bg-gaming-light/30 transition-colors">
                   <div className="flex items-start justify-between gap-4">

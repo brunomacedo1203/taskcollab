@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 
 export const useHomeViewModel = () => {
   useAuthGuard();
-  const { t } = useTranslation('home');
+  const { t: tHome } = useTranslation('home');
   const user = useAuthStore((s) => s.user);
   const notifications = useNotificationsStore((s) => s.items);
   const unreadCount = notifications.length;
@@ -56,24 +56,24 @@ export const useHomeViewModel = () => {
 
     if (unreadCount > 0) {
       if (unreadCount === 1) {
-        return t('subtitle.unreadOne');
+        return tHome('subtitle.unreadOne');
       }
-      return t('subtitle.unreadMany', { count: unreadCount });
+      return tHome('subtitle.unreadMany', { count: unreadCount });
     }
     if (myTasksToday > 0) {
       if (myTasksToday === 1) {
-        return t('subtitle.todayOne');
+        return tHome('subtitle.todayOne');
       }
-      return t('subtitle.todayMany', { count: myTasksToday });
+      return tHome('subtitle.todayMany', { count: myTasksToday });
     }
     if (completedThisWeek > 0) {
       if (completedThisWeek === 1) {
-        return t('subtitle.completedOne');
+        return tHome('subtitle.completedOne');
       }
-      return t('subtitle.completedMany', { count: completedThisWeek });
+      return tHome('subtitle.completedMany', { count: completedThisWeek });
     }
-    return t('subtitle.allGood');
-  }, [data, unreadCount, user?.id, t]);
+    return tHome('subtitle.allGood');
+  }, [data, unreadCount, user?.id, tHome]);
 
   const counters = useMemo(() => {
     const tasks = (data?.data ?? []) as Task[];
@@ -147,7 +147,7 @@ export const useHomeViewModel = () => {
       .slice(0, 3)
       .forEach((t) => {
         activities.push({
-          message: t('activity.taskCreated', { title: t.title }),
+          message: tHome('activity.taskCreated', { title: t.title }),
           time: t.createdAt,
           type: 'task_created',
         });
@@ -161,7 +161,7 @@ export const useHomeViewModel = () => {
       .slice(0, 3)
       .forEach((t) => {
         activities.push({
-          message: t('activity.taskCompleted', { title: t.title }),
+          message: tHome('activity.taskCompleted', { title: t.title }),
           time: t.updatedAt || t.createdAt,
           type: 'task_completed',
         });
@@ -169,7 +169,7 @@ export const useHomeViewModel = () => {
 
     notifications.slice(0, 2).forEach((n) => {
       activities.push({
-        message: n.body || n.title || t('activity.notificationFallback'),
+        message: n.body || n.title || tHome('activity.notificationFallback'),
         time: n.createdAt || new Date().toISOString(),
         type: 'notification',
       });
@@ -178,7 +178,7 @@ export const useHomeViewModel = () => {
     return activities
       .sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
       .slice(0, 5);
-  }, [data, notifications, t]);
+  }, [data, notifications, tHome]);
 
   return { user, usersById, subtitle, counters, urgentTasks, recentActivity };
 };
