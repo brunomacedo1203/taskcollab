@@ -3,7 +3,6 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { ConfigService } from '@nestjs/config';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
@@ -17,21 +16,14 @@ async function bootstrap(): Promise<void> {
     }),
   );
 
-  // CORS configuration via env
-  const config = app.get(ConfigService);
-  const originEnv = config.get<string>('CORS_ORIGIN', '*');
-  const credentialsEnv = config.get<string>('CORS_CREDENTIALS', 'false');
-  const credentials = ['1', 'true', 'yes', 'on'].includes(String(credentialsEnv).toLowerCase());
-
-  let origin: true | string[] = true;
-  if (originEnv && originEnv !== '*') {
-    const list = originEnv
-      .split(',')
-      .map((s) => s.trim())
-      .filter((s) => s.length > 0);
-    if (list.length) origin = list as string[];
-  }
-  app.enableCors({ origin, credentials });
+  // CORS simples: libera o frontend na porta 4000
+  app.enableCors({
+    origin: [
+      'http://137.131.62.83:4000', // frontend em produção na VPS
+      'http://localhost:4000', // opcional para testes locais
+    ],
+    credentials: true,
+  });
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Task collab API Gateway')
