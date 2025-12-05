@@ -8,9 +8,9 @@ export default {
     extend: {
       colors: {
         // Neutral grayscale palette
-        background: '#0f0f10',
-        foreground: '#f5f5f5',
-        muted: '#1a1a1b',
+        background: '#202020',
+        foreground: '#f9fafb',
+        muted: '#2a2a2a',
         primary: {
           DEFAULT: '#e5e7eb', // gray-200
           foreground: '#111827', // gray-900
@@ -23,14 +23,14 @@ export default {
           DEFAULT: '#d1d5db', // gray-300
           foreground: '#111827',
         },
-        border: '#2d2d2f',
-        input: '#2d2d2f',
+        border: '#3a3a3a',
+        input: '#2a2a2a',
         ring: '#9ca3af',
         // Legacy "gaming" tokens now mapped to grayscale
         gaming: {
-          dark: '#0f0f10',
-          darker: '#0a0a0a',
-          light: '#242426',
+          dark: '#202020',
+          darker: '#141414',
+          light: '#333333',
           neon: {
             green: '#d1d5db',
             orange: '#9ca3af',
@@ -57,7 +57,7 @@ export default {
       backgroundImage: {
         'gradient-gaming': 'linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%)',
         'gradient-gaming-orange': 'linear-gradient(135deg, #9ca3af 0%, #6b7280 100%)',
-        'gradient-dark': 'linear-gradient(180deg, #0f0f10 0%, #1a1a1b 100%)',
+        'gradient-dark': 'linear-gradient(180deg, #202020 0%, #2a2a2a 100%)',
       },
     },
   },

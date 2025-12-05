@@ -1,0 +1,50 @@
+{
+  "header": {
+    "welcomeUser": "Welcome, {{username}}!",
+    "welcomeAnon": "Welcome!",
+    "recentTitle": "Recent Activity",
+    "recentDescription": "Last 24h creations, tasks completed today and notifications"
+  },
+  "statusCards": {
+    "todoTitle": "TODO",
+    "todoBadge": "{{count}} of yours",
+    "clickToFilter": "Click to filter",
+    "inProgressTitle": "IN PROGRESS",
+    "inProgressBadge": "{{count}} of yours",
+    "reviewTitle": "IN REVIEW",
+    "doneTitle": "COMPLETED"
+  },
+  "recentActivity": {
+    "empty": "No recent activity"
+  },
+  "urgent": {
+    "title": "Needs Attention",
+    "description": "Urgent tasks, High priority due by tomorrow, or yours due today",
+    "badgeForYou": "FOR YOU",
+    "badgeWaiting": "WAITING",
+    "reasonUrgent": "Urgent",
+    "reasonHighDueSoon": "High • Due by tomorrow",
+    "reasonDueToday": "Due today",
+    "legendAssignedToYou": "Assigned to you",
+    "legendAssignedToOther": "Assigned to someone else",
+    "emptyTitle": "No urgent tasks",
+    "emptySubtitle": "Keep it up! 🎉"
+  },
+  "cta": {
+    "viewAllTasks": "View All Tasks"
+  },
+  "subtitle": {
+    "unreadOne": "You have 1 new notification since your last visit",
+    "unreadMany": "You have {{count}} new notifications since your last visit",
+    "todayOne": "You have 1 task assigned for today",
+    "todayMany": "You have {{count}} tasks assigned for today",
+    "completedOne": "1 task completed this week 🎉",
+    "completedMany": "{{count}} tasks completed this week 🎉",
+    "allGood": "All caught up! Time for new tasks 💪"
+  },
+  "activity": {
+    "taskCreated": "New task created: {{title}}",
+    "taskCompleted": "Task completed: {{title}}",
+    "notificationFallback": "Notification"
+  }
+}

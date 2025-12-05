@@ -1,0 +1,12 @@
+{
+  "buttonLabel": "Notifications",
+  "title": "Notifications",
+  "markAllRead": "Mark all as read",
+  "empty": "No new notifications.",
+  "defaultTitle": "Notification",
+  "toast": {
+    "taskCreated": "New task created",
+    "taskUpdated": "Task updated",
+    "newComment": "New comment"
+  }
+}

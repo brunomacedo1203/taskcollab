@@ -4,10 +4,11 @@ import { Skeleton } from '../components/Skeleton';
 import { Link } from '@tanstack/react-router';
 import TasksFilters from '../components/tasks/TasksFilters';
 import CreateTaskForm from '../components/tasks/CreateTaskForm';
-import { statusToPt, priorityToPt } from '../features/tasks/utils';
 import { useTasksListPage } from '../features/tasks/useTasksListPage';
+import { useTranslation } from 'react-i18next';
 
 export const TasksListPage: React.FC = () => {
+  const { t: tTasks } = useTranslation('tasks');
   const {
     page,
     setPage,
@@ -35,20 +36,22 @@ export const TasksListPage: React.FC = () => {
     <div className="space-y-4 md:space-y-6 p-3 sm:p-4 max-w-7xl mx-auto">
       <div className="flex items-center justify-between gap-3">
         <h1 className="text-2xl text-emerald-400 sm:text-3xl font-gaming font-bold text-primary">
-          Tarefas
+          {tTasks('list.title')}
         </h1>
         <Button
           onClick={() => setShowCreate((v) => !v)}
           variant="secondary"
           className="bg-gradient-to-br from-emerald-500 to-emerald-700 text-xs sm:text-sm px-3 sm:px-4 py-2 sm:py-2.5 text-white hover:brightness-105 shadow-lg whitespace-nowrap"
         >
-          {showCreate ? 'Fechar' : 'Nova Tarefa'}
+          {showCreate ? tTasks('list.toggleCreateOpen') : tTasks('list.toggleCreateClosed')}
         </Button>
       </div>
 
       {showCreate && (
         <div className="rounded-xl border-2 border-border bg-gaming-light/50 backdrop-blur-sm p-6 shadow-xl">
-          <h2 className="font-gaming font-bold text-xl text-primary mb-4">Criar nova tarefa</h2>
+          <h2 className="font-gaming font-bold text-xl text-primary mb-4">
+            {tTasks('list.createTitle')}
+          </h2>
           <CreateTaskForm
             users={usersData ?? []}
             currentUserId={currentUserId}
@@ -73,19 +76,19 @@ export const TasksListPage: React.FC = () => {
           <thead className="bg-gaming-light/80">
             <tr>
               <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-gaming font-bold uppercase tracking-wider text-emerald-400">
-                Tarefa
+                {tTasks('list.headers.task')}
               </th>
               <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-gaming font-bold uppercase tracking-wider text-emerald-400">
-                Status
+                {tTasks('list.headers.status')}
               </th>
               <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-gaming font-bold uppercase tracking-wider text-emerald-400">
-                Prioridade
+                {tTasks('list.headers.priority')}
               </th>
               <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-gaming font-bold uppercase tracking-wider text-emerald-400">
-                Vencimento
+                {tTasks('list.headers.dueDate')}
               </th>
               <th className="px-2 sm:px-4 py-2 sm:py-3 text-center text-[10px] sm:text-xs font-gaming font-bold uppercase tracking-wider text-emerald-400">
-                Responsáveis
+                {tTasks('list.headers.assignees')}
               </th>
               <th className="px-4 py-3"></th>
             </tr>
@@ -117,13 +120,13 @@ export const TasksListPage: React.FC = () => {
             ) : isError ? (
               <tr>
                 <td className="px-4 py-6 text-sm text-red-400 font-medium" colSpan={6}>
-                  Erro ao carregar tarefas.
+                  {tTasks('list.loadingError')}
                 </td>
               </tr>
             ) : filtered.length === 0 ? (
               <tr>
                 <td className="px-4 py-6 text-sm text-foreground/70" colSpan={6}>
-                  Nenhuma tarefa encontrada.
+                  {tTasks('list.empty')}
                 </td>
               </tr>
             ) : (
@@ -158,19 +161,25 @@ export const TasksListPage: React.FC = () => {
                           </div>
                         )}
                         <div className="text-[11px] sm:text-xs text-foreground/60 flex items-center gap-2 flex-wrap">
-                          <span>📅 {new Date(t.createdAt).toLocaleDateString('pt-BR')}</span>
+                          <span>📅 {new Date(t.createdAt).toLocaleDateString()}</span>
                           {isAssignedToMe && t.lastAssignedByUsername && (
                             <>
                               <span>•</span>
                               <span className="text-emerald-400 font-medium">
-                                ✓ Atribuída a você por {t.lastAssignedByUsername}
+                                {tTasks('list.assignedToYouBy', {
+                                  username: t.lastAssignedByUsername,
+                                })}
                               </span>
                             </>
                           )}
                           {!isAssignedToMe && t.lastAssignedByUsername && (
                             <>
                               <span>•</span>
-                              <span>Atribuída por {t.lastAssignedByUsername}</span>
+                              <span>
+                                {tTasks('list.assignedBy', {
+                                  username: t.lastAssignedByUsername,
+                                })}
+                              </span>
                             </>
                           )}
                         </div>
@@ -179,24 +188,24 @@ export const TasksListPage: React.FC = () => {
 
                     <td className="px-2 sm:px-4 py-3 sm:py-4">
                       <span className="px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-semibold bg-primary/20 text-primary border border-primary/30 whitespace-nowrap">
-                        {statusToPt(t.status)}
+                        {tTasks(`status.${t.status}`)}
                       </span>
                     </td>
 
                     <td className="px-2 sm:px-4 py-3 sm:py-4">
                       <span className="px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-semibold bg-accent/20 text-accent border border-accent/30 whitespace-nowrap">
-                        {priorityToPt(t.priority)}
+                        {tTasks(`priority.${t.priority}`)}
                       </span>
                     </td>
 
                     <td className="px-2 sm:px-4 py-3 sm:py-4 text-xs sm:text-base text-foreground/80">
-                      {t.dueDate ? new Date(t.dueDate).toLocaleDateString('pt-BR') : '—'}
+                      {t.dueDate ? new Date(t.dueDate).toLocaleDateString() : '—'}
                     </td>
 
                     <td className="px-2 sm:px-4 py-3 sm:py-4">
                       {assigneeNames.length === 0 ? (
                         <span className="px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-medium bg-gray-500/20 text-gray-300 border border-gray-500/30 whitespace-nowrap">
-                          Não atribuída
+                          {tTasks('list.unassigned')}
                         </span>
                       ) : (
                         <div className="flex items-center gap-1 flex-wrap justify-center text-[11px] sm:text-xs">
@@ -224,7 +233,7 @@ export const TasksListPage: React.FC = () => {
                     <td className="px-2 sm:px-4 py-3 sm:py-4 text-right">
                       <Link to="/tasks/$id" params={{ id: t.id }} search={{ from: 'tasks' }}>
                         <Button variant="outline" size="sm">
-                          Detalhes
+                          {tTasks('list.details')}
                         </Button>
                       </Link>
                     </td>
@@ -238,25 +247,29 @@ export const TasksListPage: React.FC = () => {
 
       <div className="flex items-center justify-between">
         <div className="text-sm text-foreground/70 font-medium">
-          Página {(data as any)?.page ?? page} de{' '}
-          {data
-            ? Math.max(1, Math.ceil(((data as any).total ?? 0) / ((data as any).size ?? 10)))
-            : 1}
+          {tTasks('list.pagination.pageOf', {
+            current: (data as any)?.page ?? page,
+            total: data
+              ? Math.max(1, Math.ceil(((data as any).total ?? 0) / ((data as any).size ?? 10)))
+              : 1,
+          })}
         </div>
         <div className="flex gap-2">
           <Button
             variant="outline"
             disabled={page <= 1 || isLoading}
             onClick={() => setPage((p) => Math.max(1, p - 1))}
+            className="text-white border-primary/70 hover:bg-primary/20 disabled:text-gray-400 disabled:border-gray-600 disabled:bg-transparent disabled:opacity-100"
           >
-            Anterior
+            {tTasks('list.pagination.previous')}
           </Button>
           <Button
             variant="outline"
             disabled={!!data && page >= Math.ceil((data as any).total / (data as any).size)}
             onClick={() => setPage((p) => p + 1)}
+            className="text-white border-primary/70 hover:bg-primary/20 disabled:text-gray-400 disabled:border-gray-600 disabled:bg-transparent disabled:opacity-100"
           >
-            Próxima
+            {tTasks('list.pagination.next')}
           </Button>
         </div>
       </div>

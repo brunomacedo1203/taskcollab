@@ -6,12 +6,14 @@ import { Textarea } from './ui/textarea';
 import { Button } from './ui/button';
 import { Skeleton } from './Skeleton';
 import { useToast } from './ui/toast';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   taskId: UUID;
 };
 
 export const CommentsSection: React.FC<Props> = ({ taskId }) => {
+  const { t } = useTranslation('tasks');
   const [page, setPage] = useState(1);
   const size = 10;
   const [content, setContent] = useState('');
@@ -28,23 +30,25 @@ export const CommentsSection: React.FC<Props> = ({ taskId }) => {
     mutationFn: () => createComment(taskId, { content }),
     onSuccess: async () => {
       setContent('');
-      show('Comentário publicado!', { type: 'success' });
+      show(t('comments.toastSuccess'), { type: 'success' });
       await queryClient.invalidateQueries({ queryKey: ['comments', { taskId }] });
       refetch();
     },
     onError: (err: any) => {
-      const msg = err?.response?.data?.message ?? 'Falha ao comentar';
+      const msg = err?.response?.data?.message ?? t('comments.toastErrorFallback');
       show(String(msg), { type: 'error' });
     },
   });
 
   return (
     <div className="space-y-4">
-      <h3 className="font-gaming text-emerald-400 font-bold text-xl text-primary">Comentários</h3>
+      <h3 className="font-gaming text-emerald-400 font-bold text-xl text-primary">
+        {t('comments.title')}
+      </h3>
 
       <div className="rounded-xl border-2 border-border bg-gaming-light/50 backdrop-blur-sm p-4 space-y-3 shadow-xl">
         <Textarea
-          placeholder="Escreva um comentário..."
+          placeholder={t('comments.placeholder')}
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
@@ -54,7 +58,7 @@ export const CommentsSection: React.FC<Props> = ({ taskId }) => {
             onClick={() => mutation.mutate()}
             variant="secondary"
           >
-            {mutation.isPending ? 'Enviando...' : 'Enviar'}
+            {mutation.isPending ? t('comments.submitting') : t('comments.submit')}
           </Button>
         </div>
       </div>
@@ -68,15 +72,17 @@ export const CommentsSection: React.FC<Props> = ({ taskId }) => {
             </div>
           ))
         ) : isError ? (
-          <div className="p-4 text-sm text-red-400 font-medium">Erro ao carregar comentários.</div>
+          <div className="p-4 text-sm text-red-400 font-medium">{t('comments.loadError')}</div>
         ) : !data || (data as any).data.length === 0 ? (
-          <div className="p-4 text-sm text-foreground/70 text-center">Sem comentários ainda.</div>
+          <div className="p-4 text-sm text-foreground/70 text-center">{t('comments.empty')}</div>
         ) : (
           (data as any).data.map((c: any) => (
             <div key={c.id} className="p-4 hover:bg-gaming-light/30 transition-colors">
               <div className="text-xs text-foreground/60 mb-2 font-medium">
-                {c.authorId ? `Autor: ${c.authorId.slice(0, 8)}` : 'Autor: —'} •{' '}
-                {new Date(c.createdAt).toLocaleString()}
+                {c.authorId
+                  ? `${t('comments.authorLabel')}: ${c.authorId.slice(0, 8)}`
+                  : `${t('comments.authorLabel')}: ${t('comments.authorUnknown')}`}{' '}
+                • {new Date(c.createdAt).toLocaleString()}
               </div>
               <div className="text-sm text-foreground whitespace-pre-wrap">{c.content}</div>
             </div>
@@ -86,25 +92,29 @@ export const CommentsSection: React.FC<Props> = ({ taskId }) => {
 
       <div className="flex items-center justify-between">
         <div className="text-sm text-foreground/70 font-medium">
-          Página {(data as any)?.page ?? page} de{' '}
-          {data
-            ? Math.max(1, Math.ceil(((data as any).total ?? 0) / ((data as any).size ?? 10)))
-            : 1}
+          {t('list.pagination.pageOf', {
+            current: (data as any)?.page ?? page,
+            total: data
+              ? Math.max(1, Math.ceil(((data as any).total ?? 0) / ((data as any).size ?? 10)))
+              : 1,
+          })}
         </div>
         <div className="flex gap-2">
           <Button
             variant="outline"
             disabled={page <= 1 || isLoading}
             onClick={() => setPage((p) => Math.max(1, p - 1))}
+            className="text-white border-primary/70 hover:bg-primary/20 disabled:text-gray-400 disabled:border-gray-600 disabled:bg-transparent disabled:opacity-100"
           >
-            Anterior
+            {t('list.pagination.previous')}
           </Button>
           <Button
             variant="outline"
             disabled={!!data && page >= Math.ceil((data as any).total / (data as any).size)}
             onClick={() => setPage((p) => p + 1)}
+            className="text-white border-primary/70 hover:bg-primary/20 disabled:text-gray-400 disabled:border-gray-600 disabled:bg-transparent disabled:opacity-100"
           >
-            Próxima
+            {t('list.pagination.next')}
           </Button>
         </div>
       </div>

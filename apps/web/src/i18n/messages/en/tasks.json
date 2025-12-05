@@ -1,0 +1,104 @@
+{
+  "list": {
+    "title": "Tasks",
+    "toggleCreateOpen": "Close",
+    "toggleCreateClosed": "New Task",
+    "createTitle": "Create new task",
+    "loadingError": "Error loading tasks.",
+    "empty": "No tasks found.",
+    "headers": {
+      "task": "Task",
+      "status": "Status",
+      "priority": "Priority",
+      "dueDate": "Due date",
+      "assignees": "Assignees"
+    },
+    "pagination": {
+      "pageOf": "Page {{current}} of {{total}}",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "filters": {
+      "searchLabel": "Search",
+      "searchPlaceholder": "Title or description...",
+      "allStatus": "All",
+      "allPriorities": "All"
+    },
+    "unassigned": "Unassigned",
+    "details": "Details",
+    "assignedToYouBy": "✓ Assigned to you by {{username}}",
+    "assignedBy": "Assigned by {{username}}"
+  },
+  "details": {
+    "discardTitle": "Discard changes?",
+    "discardDescription": "You have unsaved changes. Do you want to discard them and go back to the previous page?",
+    "discardCancel": "Stay here",
+    "discardConfirm": "Discard and go back",
+    "backButton": "Back",
+    "createdAtPrefix": "Created at",
+    "assignedToYouPrefix": "Assigned to you by",
+    "assignedByPrefix": "Assigned by",
+    "assignedAtPrefix": "on"
+  },
+  "status": {
+    "TODO": "To do",
+    "IN_PROGRESS": "In progress",
+    "REVIEW": "In review",
+    "DONE": "Completed"
+  },
+  "priority": {
+    "LOW": "Low",
+    "MEDIUM": "Medium",
+    "HIGH": "High",
+    "URGENT": "Urgent"
+  },
+  "form": {
+    "create": {
+      "titleLabel": "Title",
+      "descriptionLabel": "Description",
+      "dueDateLabel": "Due date",
+      "statusLabel": "Status",
+      "priorityLabel": "Priority",
+      "assignLabel": "Assign task",
+      "assigneesPlaceholder": "Select users",
+      "cancel": "Cancel",
+      "create": "Create",
+      "creating": "Creating..."
+    },
+    "edit": {
+      "heading": "Edit Task",
+      "onlyCreatorWarning": "Only the creator of this task can edit the fields below. You can still comment.",
+      "save": "Save changes",
+      "saving": "Saving..."
+    },
+    "errors": {
+      "titleRequired": "Title is required",
+      "dueDateInvalid": "Date must be in YYYY-MM-DD format"
+    }
+  },
+  "comments": {
+    "title": "Comments",
+    "placeholder": "Write a comment...",
+    "submit": "Send",
+    "submitting": "Sending...",
+    "loadError": "Error loading comments.",
+    "empty": "No comments yet.",
+    "authorLabel": "Author",
+    "authorUnknown": "—",
+    "toastSuccess": "Comment posted!",
+    "toastErrorFallback": "Failed to post comment"
+  },
+  "history": {
+    "title": "Change history",
+    "loadError": "Error loading history.",
+    "empty": "No history yet.",
+    "viewTask": "View task",
+    "actor": "by {{actor}}",
+    "taskCreated": "Task created {{actor}}",
+    "commentAdded": "Comment added {{actor}}",
+    "taskUpdated": "Task updated ({{changes}}) {{actor}}",
+    "taskUpdatedNoChanges": "no changes",
+    "dueDateField": "due date",
+    "assigneesField": "assignees"
+  }
+}

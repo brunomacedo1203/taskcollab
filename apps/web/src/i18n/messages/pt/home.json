@@ -1,0 +1,50 @@
+{
+  "header": {
+    "welcomeUser": "Bem-vindo(a), {{username}}!",
+    "welcomeAnon": "Bem-vindo(a)!",
+    "recentTitle": "Atividade Recente",
+    "recentDescription": "Últimas 24h (criações), concluídas hoje e notificações"
+  },
+  "statusCards": {
+    "todoTitle": "TODO",
+    "todoBadge": "{{count}} suas",
+    "clickToFilter": "Clique para filtrar",
+    "inProgressTitle": "EM ANDAMENTO",
+    "inProgressBadge": "{{count}} suas",
+    "reviewTitle": "EM REVISÃO",
+    "doneTitle": "CONCLUÍDAS"
+  },
+  "recentActivity": {
+    "empty": "Nenhuma atividade recente"
+  },
+  "urgent": {
+    "title": "Requer Atenção",
+    "description": "Urgentes, Alta com prazo até amanhã, ou suas com prazo hoje",
+    "badgeForYou": "PARA VOCÊ",
+    "badgeWaiting": "AGUARDANDO",
+    "reasonUrgent": "Urgente",
+    "reasonHighDueSoon": "Alta • Vence até amanhã",
+    "reasonDueToday": "Prazo hoje",
+    "legendAssignedToYou": "Atribuída a você",
+    "legendAssignedToOther": "Atribuída a outra pessoa",
+    "emptyTitle": "Nenhuma tarefa urgente",
+    "emptySubtitle": "Continue assim! 🎉"
+  },
+  "cta": {
+    "viewAllTasks": "Ver Todas as Tarefas"
+  },
+  "subtitle": {
+    "unreadOne": "Você tem 1 nova notificação desde sua última visita",
+    "unreadMany": "Você tem {{count}} novas notificações desde sua última visita",
+    "todayOne": "Você tem 1 tarefa atribuída para hoje",
+    "todayMany": "Você tem {{count}} tarefas atribuídas para hoje",
+    "completedOne": "1 tarefa concluída esta semana 🎉",
+    "completedMany": "{{count}} tarefas concluídas esta semana 🎉",
+    "allGood": "Tudo em dia! Hora de pegar novas tarefas 💪"
+  },
+  "activity": {
+    "taskCreated": "Nova tarefa criada: {{title}}",
+    "taskCompleted": "Tarefa concluída: {{title}}",
+    "notificationFallback": "Notificação"
+  }
+}

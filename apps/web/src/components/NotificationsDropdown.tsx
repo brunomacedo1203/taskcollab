@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Bell } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import { useNotificationsStore } from '../features/notifications/store';
+import { useTranslation } from 'react-i18next';
 
 function formatDate(iso: string): string {
   try {
@@ -12,6 +13,7 @@ function formatDate(iso: string): string {
 }
 
 export const NotificationsDropdown: React.FC = () => {
+  const { t } = useTranslation('notifications');
   const [open, setOpen] = useState(false);
   const items = useNotificationsStore((s) => s.items);
   const bootstrap = useNotificationsStore((s) => s.bootstrap);
@@ -41,7 +43,7 @@ export const NotificationsDropdown: React.FC = () => {
     <div className="relative" ref={ref}>
       <button
         className="relative inline-flex items-center p-2 rounded-lg hover:bg-gaming-light transition-colors"
-        aria-label="Notificações"
+        aria-label={t('buttonLabel')}
         onClick={() => setOpen((v) => !v)}
       >
         <Bell size={20} className="text-foreground hover:text-primary transition-colors" />
@@ -55,7 +57,7 @@ export const NotificationsDropdown: React.FC = () => {
       {open && (
         <div className="absolute right-0 mt-2 w-80 rounded-xl border-2 border-border bg-gaming-light/95 backdrop-blur-md shadow-xl">
           <div className="p-4 border-b border-border flex items-center justify-between gap-2">
-            <div className="font-gaming font-bold text-primary">Notificações</div>
+            <div className="font-gaming font-bold text-primary">{t('title')}</div>
             {items.length > 0 && (
               <button
                 className="text-xs text-primary hover:text-accent font-semibold transition-colors"
@@ -65,15 +67,13 @@ export const NotificationsDropdown: React.FC = () => {
                   await markAllRead();
                 }}
               >
-                Marcar todas como lidas
+                {t('markAllRead')}
               </button>
             )}
           </div>
           <div className="max-h-96 overflow-y-auto">
             {items.length === 0 ? (
-              <div className="p-4 text-sm text-foreground/70 text-center">
-                Sem novas notificações.
-              </div>
+              <div className="p-4 text-sm text-foreground/70 text-center">{t('empty')}</div>
             ) : (
               <ul className="divide-y divide-border">
                 {items.map((n) => (
@@ -88,7 +88,7 @@ export const NotificationsDropdown: React.FC = () => {
                       }}
                     >
                       <div className="text-sm font-semibold text-foreground">
-                        {n.title || 'Notificação'}
+                        {n.title || t('defaultTitle')}
                       </div>
                       {n.body && (
                         <div className="text-xs text-foreground/60 line-clamp-2 mt-1">{n.body}</div>
