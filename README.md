@@ -438,4 +438,4 @@ Durante os testes de QA, foram executados:
 
 ### 🧩 MCP Servers (Context7)
 
-Este projeto utiliza MCP (Model Context Protocol) na configuração do IDE/agent para melhorar a produtividade durante o desenvolvimento.
+Este projeto utiliza MCP (Model Context Protocol) na configuração do IDE/agent para melhorar a produtividade durante o desenvolvimento..
