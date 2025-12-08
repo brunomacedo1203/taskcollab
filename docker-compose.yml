@@ -71,7 +71,7 @@ services:
     env_file:
       - ./apps/notifications-service/.env
     ports:
-      - '4005:3004'
+      - '4004:3004'
     depends_on:
       db:
         condition: service_healthy
