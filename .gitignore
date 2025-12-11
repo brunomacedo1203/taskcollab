@@ -18,6 +18,7 @@ coverage/
 .env
 .env.*
 !.env.example
+!apps/web/.env.production
 
 # Editor/OS
 .DS_Store
